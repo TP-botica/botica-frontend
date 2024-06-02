@@ -1,7 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { DrugstoreHomeComponent } from './components/drugstore-home/drugstore-home.component';
+import { ProductComponent } from './components/product/product.component';
+import { SaleComponent } from './components/sale/sale.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {path: '', component: DrugstoreHomeComponent},
+  {path: 'product', component:ProductComponent},
+  {path: 'sale', component:SaleComponent},
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
