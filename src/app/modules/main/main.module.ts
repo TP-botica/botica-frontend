@@ -10,6 +10,8 @@ import { BadgeModule } from 'primeng/badge';
 import { AvatarModule } from 'primeng/avatar';
 import { InputTextModule } from 'primeng/inputtext';
 import { RippleModule } from 'primeng/ripple';
+import { ButtonModule } from 'primeng/button';
+import { SidebarModule } from 'primeng/sidebar';
 
 
 @NgModule({
@@ -21,7 +23,7 @@ import { RippleModule } from 'primeng/ripple';
   imports: [
     CommonModule,
     MainRoutingModule,
-    MenubarModule, BadgeModule, AvatarModule, InputTextModule, RippleModule
+    MenubarModule, BadgeModule, AvatarModule, InputTextModule, RippleModule, ButtonModule, SidebarModule
   ]
 })
 export class MainModule { }

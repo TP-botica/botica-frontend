@@ -1,2 +1,40 @@
-<p>customer-navbar works!</p>
+<div class="card">
+    <p-menubar [model]="items">
+        <ng-template pTemplate="item" let-item>
+            <ng-container>
+                <a [routerLink]="item.route" class="p-menuitem-link">
+                    <span class="ml-2">{{ item.label }}</span>
+                </a>
+            </ng-container>
+        </ng-template>
+        <ng-template pTemplate="end">
+            <div class="avatars-container">
+                <p-avatar 
+                (click)="sidebarVisible = true"
+                icon="pi pi-shopping-cart"
+                pBadge 
+                [style]="{ 'background-color': 'transparent'}" 
+                value="4"
+                />
+                <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" />
+            </div>
+        </ng-template>
+    </p-menubar>
+</div>
+<p-sidebar [(visible)]="sidebarVisible" position="right" class="sidebar">
+    <header>
+        <h3>Mis productos</h3>
+    </header>
+    <section class="products">
+
+    </section>
+    <section class="buttons">
+        <p-button class="button" severity="secondary" routerLink='/customer/shopping-cart' (click)="sidebarVisible = false">
+            <span>Ir a mi carrito</span>
+        </p-button>
+        <p-button class="button">
+            <span>Comprar ahora</span>
+        </p-button>
+    </section>
+</p-sidebar>
 <router-outlet></router-outlet>

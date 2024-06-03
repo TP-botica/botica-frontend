@@ -1,2 +1,15 @@
-<p>drugstore-navbar works!</p>
+<div class="card">
+    <p-menubar [model]="items">
+        <ng-template pTemplate="item" let-item>
+            <ng-container>
+                <a [routerLink]="item.route" class="p-menuitem-link">
+                    <span class="ml-2">{{ item.label }}</span>
+                </a>
+            </ng-container>
+        </ng-template>
+        <ng-template pTemplate="end">
+                <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" />
+        </ng-template>
+    </p-menubar>
+</div>
 <router-outlet></router-outlet>
