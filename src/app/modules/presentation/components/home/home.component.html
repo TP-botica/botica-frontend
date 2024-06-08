@@ -1,1 +1,14 @@
-<p>home works!</p>
+<p-carousel 
+    [value]="items" 
+    [numVisible]="1" 
+    [numScroll]="4" 
+    [circular]="false" 
+    [responsiveOptions]="responsiveOptions"
+    autoplayInterval="3000">
+        <ng-template let-item pTemplate="item">
+                        <img 
+                            src="https://primefaces.org/cdn/primeng/images/demo/product/{{ item.imageUrl }}" 
+                            [alt]="item.name" 
+                            class="w-full border-round carousel-image"/>
+        </ng-template>
+</p-carousel>
