@@ -1,14 +1,38 @@
-<p-carousel 
-    [value]="items" 
-    [numVisible]="1" 
-    [numScroll]="4" 
-    [circular]="false" 
-    [responsiveOptions]="responsiveOptions"
-    autoplayInterval="3000">
-        <ng-template let-item pTemplate="item">
-                        <img 
-                            src="https://primefaces.org/cdn/primeng/images/demo/product/{{ item.imageUrl }}" 
-                            [alt]="item.name" 
-                            class="w-full border-round carousel-image"/>
-        </ng-template>
-</p-carousel>
+<section class="carousel">
+    <p-carousel 
+        [value]="items" 
+        [numVisible]="1" 
+        [numScroll]="4" 
+        [circular]="false" 
+        [responsiveOptions]="responsiveOptions"
+        autoplayInterval="3000">
+            <ng-template let-item pTemplate="item">
+                <div class="image-container">
+                            <img 
+                                src="https://primefaces.org/cdn/primeng/images/demo/product/{{ item.imageUrl }}" 
+                                [alt]="item.name" 
+                                class="border-round carousel-image"/>
+                </div>
+            </ng-template>
+    </p-carousel>
+</section>
+<section class="features">
+    <div class="title">
+        <h1>NUESTRAS TECNOLOGÍAS</h1>
+    </div>
+    <div class="feature-item">
+        <h1>Geolocalización</h1>
+        <div class="description">
+            <img src="https://www.pngall.com/wp-content/uploads/9/Location-Map.png" alt="mapa">
+        <p>La integración de la geolocalización permite a los usuarios localizar las boticas cercanas a su ubicación actual. Esto simplifica la búsqueda de productos y servicios farmacéuticos.
+        </p>
+        </div>
+    </div>
+    <div class="feature-item">
+        <h1>Pasarela de pago</h1>
+        <div class="description">
+            <img src="https://d31dn7nfpuwjnm.cloudfront.net/images/valoraciones/0034/7801/diferencia-tarjeta-credito-debito.png?1565359275" alt="tarjetas">
+            <p>La pasarela de pagos integrada garantiza transacciones seguras y eficientes. Los usuarios pueden realizar pagos utilizando métodos de pago como tarjetas de crédito o débito.</p>
+        </div>
+    </div>
+</section>
