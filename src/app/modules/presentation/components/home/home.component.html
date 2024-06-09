@@ -2,14 +2,14 @@
     <p-carousel 
         [value]="items" 
         [numVisible]="1" 
-        [numScroll]="4" 
+        [numScroll]="5" 
         [circular]="false" 
         [responsiveOptions]="responsiveOptions"
         autoplayInterval="3000">
             <ng-template let-item pTemplate="item">
                 <div class="image-container">
                             <img 
-                                src="https://primefaces.org/cdn/primeng/images/demo/product/{{ item.imageUrl }}" 
+                                src={{item.imageUrl}}
                                 [alt]="item.name" 
                                 class="border-round carousel-image"/>
                 </div>
@@ -17,22 +17,55 @@
     </p-carousel>
 </section>
 <section class="features">
-    <div class="title">
-        <h1>NUESTRAS TECNOLOGÍAS</h1>
-    </div>
-    <div class="feature-item">
-        <h1>Geolocalización</h1>
-        <div class="description">
-            <img src="https://www.pngall.com/wp-content/uploads/9/Location-Map.png" alt="mapa">
-        <p>La integración de la geolocalización permite a los usuarios localizar las boticas cercanas a su ubicación actual. Esto simplifica la búsqueda de productos y servicios farmacéuticos.
-        </p>
+    <div class="surface-section px-4 py-8 md:px-6 lg:px-8 text-center">
+        <div class="mb-3 font-bold text-3xl">
+            <span class="text-900">Una solución, </span>
+            <span class="text-blue-600">Muchas funciones</span>
         </div>
-    </div>
-    <div class="feature-item">
-        <h1>Pasarela de pago</h1>
-        <div class="description">
-            <img src="https://d31dn7nfpuwjnm.cloudfront.net/images/valoraciones/0034/7801/diferencia-tarjeta-credito-debito.png?1565359275" alt="tarjetas">
-            <p>La pasarela de pagos integrada garantiza transacciones seguras y eficientes. Los usuarios pueden realizar pagos utilizando métodos de pago como tarjetas de crédito o débito.</p>
+        <div class="text-700 mb-6">Aprovecha las funcionalidades de nuestra solución.</div>
+        <div class="grid">
+            <div class="col-12 md:col-4 mb-4 px-5">
+                <span class="p-3 shadow-2 mb-3 inline-block surface-card" style="border-radius: 10px">
+                    <i class="pi pi-desktop text-4xl text-blue-500"></i>
+                </span>
+                <div class="text-900 text-xl mb-3 font-medium">Hecho por desarrolladores</div>
+                <span class="text-700 line-height-3">Nuestra solución está hecha con las tecnologías del presente.</span>
+            </div>
+            <div class="col-12 md:col-4 mb-4 px-5">
+                <span class="p-3 shadow-2 mb-3 inline-block surface-card" style="border-radius: 10px">
+                    <i class="pi pi-credit-card text-4xl text-blue-500"></i>
+                </span>
+                <div class="text-900 text-xl mb-3 font-medium">Pasarela de pagos</div>
+                <span class="text-700 line-height-3">Usa la pasarela de pagos para realizar tus transacciones.</span>
+            </div>
+            <div class="col-12 md:col-4 mb-4 px-5">
+                <span class="p-3 shadow-2 mb-3 inline-block surface-card" style="border-radius: 10px">
+                    <i class="pi pi-check-circle text-4xl text-blue-500"></i>
+                </span>
+                <div class="text-900 text-xl mb-3 font-medium">Fácil de usar</div>
+                <span class="text-700 line-height-3">Interfaz intuitiva para las funciones de cada usuario.</span>
+            </div>
+            <div class="col-12 md:col-4 mb-4 px-5">
+                <span class="p-3 shadow-2 mb-3 inline-block surface-card" style="border-radius: 10px">
+                    <i class="pi pi-thumbs-up-fill text-4xl text-blue-500"></i>
+                </span>
+                <div class="text-900 text-xl mb-3 font-medium">Soporte</div>
+                <span class="text-700 line-height-3">Se monitorea la solución en caso necesite mejoras o algunos cambios.</span>
+            </div>
+            <div class="col-12 md:col-4 md:mb-4 mb-0 px-3">
+                <span class="p-3 shadow-2 mb-3 inline-block surface-card" style="border-radius: 10px">
+                    <i class="pi pi-shield text-4xl text-blue-500"></i>
+                </span>
+                <div class="text-900 text-xl mb-3 font-medium">Seguridad de datos</div>
+                <span class="text-700 line-height-3">Los datos de los usuarios están protegidos ante amenazas.</span>
+            </div>
+            <div class="col-12 md:col-4 mb-4 px-5">
+                <span class="p-3 shadow-2 mb-3 inline-block surface-card" style="border-radius: 10px">
+                    <i class="pi pi-globe text-4xl text-blue-500"></i>
+                </span>
+                <div class="text-900 text-xl mb-3 font-medium">Geolocalización</div>
+                <span class="text-700 line-height-3">Usa la geolocalización para encontrar las boticas cercanas a ti.</span>
+            </div>
         </div>
     </div>
 </section>

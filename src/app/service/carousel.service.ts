@@ -5,26 +5,25 @@ export class CarouselService {
     getData() {
         return [
             {
-                name: 'Bamboo Watch',
-                description: 'Product Description',
-                imageUrl: 'bamboo-watch.jpg',
+                name: '',
+                imageUrl: '1.png',
             },
             {
-                name: 'Black Watch',
-                description: 'Product Description',
-                imageUrl: 'black-watch.jpg',
+                name: '',
+                imageUrl: '2.png',
             },
             {
-                name: 'Blue Band',
-                description: 'Product Description',
-                imageUrl: 'blue-band.jpg',
+                name: '',
+                imageUrl: '3.png',
             },
             {
-                name: 'Sneakers',
-                description: 'Product Description',
-                imageUrl: 'sneakers.jpg',
-                
+                name: '',
+                imageUrl: '4.png',
             },
+            {
+                name: '',
+                imageUrl: '5.png',
+            }
         ];
     }
 };
