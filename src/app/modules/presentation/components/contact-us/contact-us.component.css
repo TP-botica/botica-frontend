@@ -1,0 +1,36 @@
+.contact {
+    width: 100%;
+    min-height: calc(100vh - 112px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contact-card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    margin: 1rem;
+}
+
+.contact-card .text-center {
+    text-align: center;
+}
+
+.contact-card .contact-info {
+    margin-top: 2rem;
+}
+
+.contact-card .contact-info label {
+    font-size: 1rem;
+    color: #333;
+}
+
+.contact-card .contact-info p {
+    font-size: 1rem;
+    color: #555;
+}
