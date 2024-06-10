@@ -16,8 +16,12 @@ export class DrugstoreNavbarComponent implements OnInit {
             route:'/drugstore'
         },
         {
-            label: 'Mis productos',
+            label: 'Mis Productos',
             route:'/drugstore/product'
+        },
+        {
+            label: 'Mis Servicios',
+            route:'/drugstore/service'
         },
         {
             label: 'Mis ventas',

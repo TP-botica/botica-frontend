@@ -6,12 +6,18 @@
     [tableStyle]="{ 'min-width': '50rem' }"
     [rowsPerPageOptions]="[5, 10, 20]"
 >
+    <ng-template pTemplate="caption">
+        <div class="flex align-items-center justify-content-between">
+            <h5 class="m-0">Mis ventas</h5>
+        </div>
+    </ng-template>
     <ng-template pTemplate="header">
         <tr>
             <th style="width:25%">Código</th>
             <th style="width:25%">Nombre</th>
             <th style="width:25%">Categoría</th>
             <th style="width:25%">Cantidad</th>
+            <th style="width:25%">Detalle</th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-product>
@@ -20,11 +26,106 @@
             <td>{{ product.name }}</td>
             <td>{{ product.category }}</td>
             <td>{{ product.quantity }}</td>
+            <td>
+                <p-button 
+                        pRipple 
+                        icon="pi pi-info" 
+                        class="mr-2" 
+                        [rounded]="true" 
+                        [outlined]="true" 
+                        severity="success" 
+                        (click)="editProduct(product)" />
+            </td>
         </tr>
     </ng-template>
     </p-table>
+    <p-dialog 
+        [(visible)]="productDialog" 
+        [style]="{ width: '450px' }" 
+        header="Detalles del Producto" 
+        [modal]="true" 
+        styleClass="p-fluid">
+            <ng-template pTemplate="content">
+                <div class="field">
+                    <label for="description">Descripción</label>
+                    <textarea 
+                        id="description" 
+                        pInputTextarea 
+                        [(ngModel)]="product.description" 
+                        required 
+                        rows="3" 
+                        cols="20">
+                    </textarea>
+                </div>
+                <div class="field">
+                    <label class="mb-3">Categoría</label>
+                    <div class="formgrid grid">
+                        <div class="field-radiobutton col-6">
+                            <p-radioButton 
+                                id="category1" 
+                                name="category" 
+                                value="Accessories" 
+                                [(ngModel)]="product.category" />
+                            <label for="category1">Accessories</label>
+                        </div>
+                        <div class="field-radiobutton col-6">
+                            <p-radioButton 
+                                id="category2" 
+                                name="category" 
+                                value="Clothing" 
+                                [(ngModel)]="product.category" />
+                            <label for="category2">Clothing</label>
+                        </div>
+                        <div class="field-radiobutton col-6">
+                            <p-radioButton 
+                                id="category3" 
+                                name="category" 
+                                value="Electronics" 
+                                [(ngModel)]="product.category" />
+                            <label for="category3">Electronics</label>
+                        </div>
+                        <div class="field-radiobutton col-6">
+                            <p-radioButton 
+                                id="category4" 
+                                name="category" 
+                                value="Fitness" 
+                                [(ngModel)]="product.category" />
+                            <label for="category4">Fitness</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="formgrid grid">
+                    <div class="field col">
+                        <label for="price">Precio</label>
+                        <p-inputNumber 
+                            id="price" 
+                            [(ngModel)]="product.price" 
+                            mode="currency" 
+                            currency="USD" 
+                            locale="en-US" />
+                    </div>
+                    <div class="field col">
+                        <label for="quantity">Cantidad</label>
+                        <p-inputNumber 
+                            id="quantity" 
+                            [(ngModel)]="product.quantity" />
+                    </div>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <p-button 
+                    pRipple 
+                    label="Cerrar" 
+                    icon="pi pi-times" 
+                    [text]="true" 
+                    (click)="hideDialog()" />
+            </ng-template>
+    </p-dialog>
+
     <div class="card">
-        <p-chart type="pie" [data]="data" [options]="options" width="500"/>
-        <p-chart type="bar" [data]="basicData"  [options]="basicOptions" width="500"/>
+        <p-chart class="chart" type="pie" [data]="data" [options]="options"/>
+        <p-chart class="chart" type="bar" [data]="basicData"  [options]="basicOptions"/>
     </div>
 </section>

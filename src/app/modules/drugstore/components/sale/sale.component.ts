@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Product } from '../../../../domain/product';
 import { ProductService } from '../../../../service/product.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-sale',
   templateUrl: './sale.component.html',
-  styleUrl: './sale.component.css'
+  styleUrl: './sale.component.css',
+  providers: [MessageService]
 })
 export class SaleComponent implements OnInit {
   basicData: any;
@@ -17,10 +19,10 @@ export class SaleComponent implements OnInit {
 
   options: any;
 
-  private chartSizeSubject = new BehaviorSubject<string | null>('500px'); 
-  chartSize$ = this.chartSizeSubject.asObservable();
+  product!: Product;
+  productDialog: boolean = false;
 
-  constructor( private productService: ProductService){
+  constructor( private productService: ProductService, private messageService: MessageService){
     this.getData()
   }
 
@@ -101,5 +103,13 @@ export class SaleComponent implements OnInit {
       }
   };
   }
+
+  editProduct(product: Product) {
+    this.product = { ...product };
+    this.productDialog = true;
+}
+
+hideDialog() {
+    this.productDialog = false;}
 
 }

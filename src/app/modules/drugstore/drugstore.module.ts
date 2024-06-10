@@ -19,9 +19,11 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { ChartModule } from 'primeng/chart';
 import { SaleComponent } from './components/sale/sale.component';
+import { DrugstoreHomeComponent } from './components/drugstore-home/drugstore-home.component';
+import { ServiceComponent } from './components/service/service.component';
 
 @NgModule({
-  declarations: [ProductComponent, SaleComponent],
+  declarations: [ProductComponent, SaleComponent, DrugstoreHomeComponent, ServiceComponent],
   imports: [
     CommonModule,
     DrugstoreRoutingModule,
