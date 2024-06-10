@@ -3,18 +3,18 @@
         <div class="text-center mb-5">
             <div class="text-900 text-3xl font-medium mb-3">Regístrate</div>
             <span class="text-600 font-medium line-height-3">Ya tienes una cuenta?</span>
-            <a class="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Login</a>
+            <a routerLink="/login" class="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Login</a>
         </div>
     
         <div>
             <label for="name" class="block text-900 font-medium mb-2">Nombre</label>
-            <input id="name" type="text" placeholder="Nombre" pInputText class="w-full mb-3" autocomplete="given-name">
+            <input [(ngModel)]="user.name" id="name" type="text" placeholder="Nombre" pInputText class="w-full mb-3" autocomplete="given-name">
             <label for="email" class="block text-900 font-medium mb-2">Correo</label>
-            <input id="email" type="text" placeholder="Correo electrónico" pInputText class="w-full mb-3" autocomplete="off">
+            <input [(ngModel)]="user.email" id="email" type="email" placeholder="Correo electrónico" pInputText class="w-full mb-3" autocomplete="off">
             <label for="password" class="block text-900 font-medium mb-2">Contraseña</label>
-            <input id="password" type="password" placeholder="Contraseña" pInputText class="w-full mb-3">
+            <input [(ngModel)]="user.password" id="password" type="password" placeholder="Contraseña" pInputText class="w-full mb-3">
             <label for="repeatedPassword" class="block text-900 font-medium mb-2">Repite tu contraseña</label>
-            <input id="repeatedPassword" type="password" placeholder="Repite tu contraseña" pInputText class="w-full mb-3">
+            <input [(ngModel)]="user.repeatedPassword" id="repeatedPassword" type="password" placeholder="Repite tu contraseña" pInputText class="w-full mb-3">
             <label class="block text-900 font-medium mb-2">Selecciona tu rol</label>
             <p-dropdown 
             id="role"
@@ -23,11 +23,11 @@
             [(ngModel)]="selectedRole" 
             optionLabel="name"
             placeholder="Selecciona un rol" />
-            @if (selectedRole?.name =='Botica') {
+            @if (selectedRole?.name =='drugstore') {
                 <label for="latitude" class="block text-900 font-medium mb-2 mt-3">Latitud</label>
-                <input id="latitude" type="text" placeholder="Latitud" pInputText class="w-full mb-3">
+                <input [(ngModel)]="user.latitude"  id="latitude" type="text" placeholder="Latitud" pInputText class="w-full mb-3">
                 <label for="longitude" class="block text-900 font-medium mb-2">Longitud</label>
-                <input id="longitude" type="text" placeholder="Longitud" pInputText class="w-full mb-3">
+                <input [(ngModel)]="user.longitude"  id="longitude" type="text" placeholder="Longitud" pInputText class="w-full mb-3">
             }
     
             <button pButton pRipple label="Registrar" icon="pi pi-user" class="w-full mt-5" (click)="register()"></button>

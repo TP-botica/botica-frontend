@@ -1,0 +1,1 @@
+export const myUrl: string = 'http://localhost:8090';
