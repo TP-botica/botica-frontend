@@ -16,7 +16,7 @@
                 [style]="{ 'background-color': 'transparent'}" 
                 value="4"
                 />
-                <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" />
+                <p-avatar icon="pi pi-user" shape="circle" (click)="op.toggle($event)"/>
             </div>
         </ng-template>
     </p-menubar>
@@ -29,12 +29,18 @@
 
     </section>
     <section class="buttons">
-        <p-button class="button" severity="secondary" routerLink='/customer/shopping-cart' (click)="sidebarVisible = false">
+        <p-button severity="secondary" routerLink='/customer/shopping-cart' (click)="sidebarVisible = false">
             <span>Ir a mi carrito</span>
         </p-button>
-        <p-button class="button">
+        <p-button>
             <span>Comprar ahora</span>
         </p-button>
     </section>
 </p-sidebar>
+<p-overlayPanel #op>
+    <div class="flex flex-column gap-3 w-10rem">
+        <p-button class="button-option" label="Ver Perfil" icon="pi pi-user" [text]="true" severity="secondary" />
+        <p-button class="button-option" label="Salir" icon="pi pi-sign-out" [text]="true" severity="danger" (onClick)="logout()"/>
+    </div>
+</p-overlayPanel>
 <router-outlet></router-outlet>

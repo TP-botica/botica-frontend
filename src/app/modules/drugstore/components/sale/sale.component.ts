@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { Product } from '../../../../domain/product';
 import { ProductService } from '../../../../service/product.service';
-import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-sale',
   templateUrl: './sale.component.html',
   styleUrl: './sale.component.css',
-  providers: [MessageService]
+  providers: []
 })
 export class SaleComponent implements OnInit {
   basicData: any;
@@ -22,7 +20,7 @@ export class SaleComponent implements OnInit {
   product!: Product;
   productDialog: boolean = false;
 
-  constructor( private productService: ProductService, private messageService: MessageService){
+  constructor( private productService: ProductService){
     this.getData()
   }
 

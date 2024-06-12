@@ -1,0 +1,5 @@
+.sale{
+    min-height: calc(100vh - 112px);
+    width: 100%;
+    padding: 2rem;
+}

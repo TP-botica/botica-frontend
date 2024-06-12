@@ -8,8 +8,14 @@
             </ng-container>
         </ng-template>
         <ng-template pTemplate="end">
-                <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" />
+                <p-avatar icon="pi pi-user" shape="circle" (click)="op.toggle($event)"/>
         </ng-template>
     </p-menubar>
 </div>
+<p-overlayPanel #op>
+    <div class="flex flex-column gap-3 w-10rem">
+        <p-button label="Ver Perfil" icon="pi pi-user" [text]="true" severity="secondary" />
+        <p-button  label="Salir" icon="pi pi-sign-out" [text]="true" severity="danger" (onClick)="logout()"/>
+    </div>
+</p-overlayPanel>
 <router-outlet></router-outlet>

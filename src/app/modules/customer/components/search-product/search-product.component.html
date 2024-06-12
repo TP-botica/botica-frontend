@@ -1,1 +1,53 @@
-<p>search-product works!</p>
+<div class="p-2 pt-3">
+    <p-selectButton 
+        [options]="stateOptions" 
+        [(ngModel)]="value" 
+        optionLabel="label" 
+        optionValue="value" />
+</div>
+
+<section class="search-container p-2 pt-4">
+    <form [formGroup]="formGroup">
+        <p-floatLabel>
+            <p-autoComplete 
+                formControlName="selectedCountry"
+                [suggestions]="filteredProducts" 
+                (completeMethod)="filterProduct($event)"
+                inputId="float-label" 
+                field="name" />
+                <label for="float-label">Buscar</label>
+            </p-floatLabel>
+    </form>
+    <p-dropdown 
+        id="category"
+        class="category-selector"
+        [options]="roles" 
+        [(ngModel)]="selectedRole" 
+        optionLabel="name"
+        placeholder="Selecciona una categoría" />
+</section>
+
+<section class="services-container">
+    @for(product of products; track product.id){
+        <div class="p-4 border-1 surface-border surface-card border-round flex flex-column">
+            <div class="surface-50 flex justify-content-center border-round p-3">
+                <div class="relative mx-auto">
+                    <img class="border-round w-full" [src]="'https://primefaces.org/cdn/primeng/images/demo/product/' + product.image" [alt]="product.name" style="max-width: 300px;" />
+                </div>
+            </div>
+            <div class="pt-4">
+                <div class="flex flex-row justify-content-between align-items-start gap-2">
+                    <div>
+                        <span class="font-medium text-secondary text-sm">{{ product.category }}</span>
+                        <div class="text-lg font-medium text-900 mt-1">{{ product.name }}</div>
+                    </div>
+                </div>
+                <div class="flex flex-column gap-4 mt-4">
+                    <div class="flex gap-2">
+                        <p-button icon="pi pi-shopping-cart" class="flex-auto md:flex-initial white-space-nowrap" label="Agregar al carrito" [disabled]="product.inventoryStatus === 'OUTOFSTOCK'" />
+                    </div>
+                </div>
+            </div>
+        </div>    
+    }
+</section>

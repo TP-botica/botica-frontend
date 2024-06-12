@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 
 @Component({
@@ -8,6 +9,9 @@ import { MenuItem } from 'primeng/api';
 })
 export class DrugstoreNavbarComponent implements OnInit {
   items: MenuItem[] | undefined;
+  constructor(private router: Router){
+    
+  }
   
   ngOnInit() {
     this.items = [
@@ -29,4 +33,10 @@ export class DrugstoreNavbarComponent implements OnInit {
         }
     ]
 }
+
+logout(){
+    localStorage.clear();
+    this.router.navigate(['/']);
+}
+
 }

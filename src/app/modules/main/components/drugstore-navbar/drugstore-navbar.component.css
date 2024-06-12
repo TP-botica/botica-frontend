@@ -1,4 +1,12 @@
 p-avatar:hover{
     cursor: pointer;
    }
-   
+
+::ng-deep 
+    .p-ripple.p-element.p-button.p-component.p-button-danger.p-button-text{
+        width: 100%;
+    }
+::ng-deep 
+    .p-ripple.p-element.p-button.p-component.p-button-secondary.p-button-text{
+        width: 100%;
+    }

@@ -12,6 +12,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { RippleModule } from 'primeng/ripple';
 import { ButtonModule } from 'primeng/button';
 import { SidebarModule } from 'primeng/sidebar';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { SidebarModule } from 'primeng/sidebar';
   imports: [
     CommonModule,
     MainRoutingModule,
-    MenubarModule, BadgeModule, AvatarModule, InputTextModule, RippleModule, ButtonModule, SidebarModule
+    MenubarModule, BadgeModule, AvatarModule, InputTextModule, RippleModule, ButtonModule, SidebarModule,
+    OverlayPanelModule
   ]
 })
 export class MainModule { }
