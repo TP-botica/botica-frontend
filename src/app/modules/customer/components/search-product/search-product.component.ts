@@ -40,7 +40,7 @@ export class SearchProductComponent implements OnInit{
 
 
   ngOnInit() {
-      this.productService.getProducts().then((data) => (this.products = data.slice(0, 12)));
+      //this.productService.getProducts().then((data) => (this.products = data.slice(0, 12)));
       this.formGroup = new FormGroup({
         selectedCountry: new FormControl<object | null>(null)
     });

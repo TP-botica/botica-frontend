@@ -47,17 +47,6 @@
         styleClass="p-fluid">
             <ng-template pTemplate="content">
                 <div class="field">
-                    <label for="description">Descripción</label>
-                    <textarea 
-                        id="description" 
-                        pInputTextarea 
-                        [(ngModel)]="product.description" 
-                        required 
-                        rows="3" 
-                        cols="20">
-                    </textarea>
-                </div>
-                <div class="field">
                     <label class="mb-3">Categoría</label>
                     <div class="formgrid grid">
                         <div class="field-radiobutton col-6">
@@ -102,14 +91,14 @@
                             id="price" 
                             [(ngModel)]="product.price" 
                             mode="currency" 
-                            currency="USD" 
-                            locale="en-US" />
+                            currency="PER" 
+                            locale="es" />
                     </div>
                     <div class="field col">
-                        <label for="quantity">Cantidad</label>
+                        <label for="quantity">Stock</label>
                         <p-inputNumber 
                             id="quantity" 
-                            [(ngModel)]="product.quantity" />
+                            [(ngModel)]="product.stock" />
                     </div>
                 </div>
             </ng-template>

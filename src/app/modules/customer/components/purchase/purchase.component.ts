@@ -17,9 +17,9 @@ export class PurchaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.productService.getProducts().then((data) => {
-      this.products = data;
-  });
+    //this.productService.getProducts().then((data) => {
+     // this.products = data;
+  //});
   }
 
   editProduct(product: Product) {
