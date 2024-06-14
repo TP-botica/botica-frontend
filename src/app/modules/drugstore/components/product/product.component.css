@@ -11,3 +11,11 @@
 .image-dialog{
     width: 100%;
 }
+
+.product-selector{
+    margin-bottom: 2rem;
+}
+
+.skeleton{
+    height: 2rem;
+}

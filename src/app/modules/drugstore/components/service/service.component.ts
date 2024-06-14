@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { Product } from '../../../../domain/product';
+import { Product, ProductOption } from '../../../../domain/product';
 import { ProductService } from '../../../../service/product.service';
 import { Table } from 'primeng/table';
+import { DrugstoreProduct, DrugstoreProductEditable } from '../../../../domain/drugstore-product';
+import { DrugstoreProductService } from '../../../../service/drugstore-product.service';
 
 @Component({
   selector: 'app-service',
@@ -11,130 +13,129 @@ import { Table } from 'primeng/table';
   styleUrl: './service.component.css'
 })
 export class ServiceComponent implements OnInit{
-  @ViewChild('dt') dt: Table | undefined;
-
-  productDialog: boolean = false;
-
-  id: any;
-
-  products!: Product[];
-
-  product!: Product;
-
-  selectedProducts!: Product[] | null;
-
-  submitted: boolean = false;
-
-  statuses!: any[];
-
-  constructor(private productService: ProductService, private messageService: MessageService, private confirmationService: ConfirmationService) {}
-
-  ngOnInit() {
-      //this.productService.getMyProducts().then((data) => (this.products = data));
-
-      this.statuses = [
-          { label: 'INSTOCK', value: 'instock' },
-          { label: 'LOWSTOCK', value: 'lowstock' },
-          { label: 'OUTOFSTOCK', value: 'outofstock' }
-      ];
+    @ViewChild('dt') dt: Table | undefined;
+  
+    productDialog: boolean = false;
+  
+    products!: Product[];
+  
+    product!: Product;
+  
+    productOptions: ProductOption[] | undefined;
+  
+    selectedProduct: ProductOption | undefined;
+  
+    submitted: boolean = false;
+  
+    create: boolean = false;
+  
+    statuses!: any[];
+  
+    constructor(private productService: ProductService, private messageService: MessageService,
+       private confirmationService: ConfirmationService, private drugstoreProductService: DrugstoreProductService) {
+          productService.getProductOptions().subscribe({
+              next: (res: any) => {
+                this.productOptions = res
+              }
+            })
+       }
+  
+    ngOnInit() {
+      this.getProducts();
+    }
+  
+    getProducts(){
+      this.productService.getMyProducts(localStorage.getItem('profileId')).subscribe({
+          next: (res)=> {this.products = res},
+          error: (err) => {console.log(err)}
+        })
+    }
+  
+    applyFilterGlobal($event: any, stringVal: any) {
+      this.dt!.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
+    }
+  
+    openNew() {
+        this.selectedProduct = undefined;
+        this.product = {};
+        this.submitted = false;
+        this.productDialog = true;
+        this.create = true;
+    }
+  
+    editProduct(product: Product) {
+        this.create = false;
+        this.product = { ...product };
+        this.productDialog = true;
+    }
+  
+    deleteProduct(product: Product) {
+        this.confirmationService.confirm({
+            message: 'Seguro que quieres eliminar ' + product.name + '?',
+            header: 'Confirmar',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.drugstoreProductService.deleteDrugstoreProduct(localStorage.getItem('profileId'),product.productId).subscribe({
+                  next: ()=> {
+                      this.getProducts()
+                      this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Producto Eliminado', life: 3000 });}
+                })
+            }
+        });
+    }
+  
+    hideDialog() {
+        this.productDialog = false;
+        this.submitted = false;
+    }
+  
+    saveProduct() {
+        this.submitted = true;
+  
+        if (this.product.name?.trim() || this.selectedProduct?.name.trim()) {
+            if (this.product.productId) {
+                let drugstoreProduct: DrugstoreProductEditable = {
+                  price: this.product.price,
+                  stock:this.product.stock
+                }
+                this.products[this.findIndexById(this.product.productId)] = this.product;
+  
+                this.drugstoreProductService.updateDrugstoreProduct(localStorage.getItem('profileId'),this.product.productId,drugstoreProduct).subscribe({
+                  next: () => { 
+                      this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Producto Actualizado', life: 3000 });}
+                })
+  
+            } else {
+              let drugstoreProduct: DrugstoreProduct= {
+                  drugstoreId: localStorage.getItem('profileId'),
+                  productId: this.selectedProduct?.id,
+                  price: this.product.price,
+                  stock:this.product.stock
+                }
+              this.drugstoreProductService.addDrugstoreProduct(drugstoreProduct).subscribe({
+                  next: () => { 
+                      this.getProducts();
+                      this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Producto Creado', life: 3000 });},
+                  error: () => {this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Producto ya registrado', life: 3000 })}
+                })
+            }
+  
+            this.products = [...this.products];
+            this.productDialog = false;
+            this.product = {};
+        }
+    }
+  
+    findIndexById(id: string): number {
+        let index = -1;
+        for (let i = 0; i < this.products.length; i++) {
+            if (this.products[i].productId === id) {
+                index = i;
+                break;
+            }
+        }
+  
+        return index;
+    }
+  
   }
-
-  applyFilterGlobal($event: any, stringVal: any) {
-    this.dt!.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
-  }
-
-  openNew() {
-      this.product = {};
-      this.submitted = false;
-      this.productDialog = true;
-  }
-
-  deleteSelectedProducts() {
-      this.confirmationService.confirm({
-          message: 'Are you sure you want to delete the selected products?',
-          header: 'Confirm',
-          icon: 'pi pi-exclamation-triangle',
-          accept: () => {
-              this.products = this.products.filter((val) => !this.selectedProducts?.includes(val));
-              this.selectedProducts = null;
-              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
-          }
-      });
-  }
-
-  editProduct(product: Product) {
-      this.product = { ...product };
-      this.productDialog = true;
-  }
-
-  deleteProduct(product: Product) {
-      this.confirmationService.confirm({
-          message: 'Are you sure you want to delete ' + product.name + '?',
-          header: 'Confirm',
-          icon: 'pi pi-exclamation-triangle',
-          accept: () => {
-              this.products = this.products.filter((val) => val.productId !== product.productId);
-              this.product = {};
-              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
-          }
-      });
-  }
-
-  hideDialog() {
-      this.productDialog = false;
-      this.submitted = false;
-  }
-
-  saveProduct() {
-      this.submitted = true;
-
-      if (this.product.name?.trim()) {
-          if (this.product.productId) {
-              this.products[this.findIndexById(this.product.productId)] = this.product;
-              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
-          } else {
-              this.product.productId = this.createId();
-              this.product.imageUrl = 'product-placeholder.svg';
-              this.products.push(this.product);
-              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
-          }
-
-          this.products = [...this.products];
-          this.productDialog = false;
-          this.product = {};
-      }
-  }
-
-  findIndexById(id: string): number {
-      let index = -1;
-      for (let i = 0; i < this.products.length; i++) {
-          if (this.products[i].productId === id) {
-              index = i;
-              break;
-          }
-      }
-
-      return index;
-  }
-
-  createId(): string {
-      let id = '';
-      var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-      for (var i = 0; i < 5; i++) {
-          id += chars.charAt(Math.floor(Math.random() * chars.length));
-      }
-      return id;
-  }
-
-  getSeverity(status: string) {
-      switch (status) {
-          case 'INSTOCK':
-              return 'success';
-          case 'LOWSTOCK':
-              return 'warning';
-          case 'OUTOFSTOCK':
-              return 'danger';
-          default: return undefined;
-      }
-  }
-}

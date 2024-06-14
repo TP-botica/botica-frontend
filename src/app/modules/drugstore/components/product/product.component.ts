@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Product } from '../../../../domain/product';
+import { Product, ProductOption } from '../../../../domain/product';
 import { ProductService } from '../../../../service/product.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
+import { DrugstoreProductService } from '../../../../service/drugstore-product.service';
+import { DrugstoreProduct, DrugstoreProductEditable } from '../../../../domain/drugstore-product';
 
 @Component({
   selector: 'app-product',
@@ -19,16 +21,31 @@ export class ProductComponent implements OnInit{
 
   product!: Product;
 
-  selectedProducts!: Product[] | null;
+  productOptions: ProductOption[] | undefined;
+
+  selectedProduct: ProductOption | undefined;
 
   submitted: boolean = false;
 
+  create: boolean = false;
+
   statuses!: any[];
 
-  constructor(private productService: ProductService, private messageService: MessageService, private confirmationService: ConfirmationService) {}
+  constructor(private productService: ProductService, private messageService: MessageService,
+     private confirmationService: ConfirmationService, private drugstoreProductService: DrugstoreProductService) {
+        productService.getProductOptions().subscribe({
+            next: (res: any) => {
+              this.productOptions = res
+            }
+          })
+     }
 
   ngOnInit() {
-      this.productService.getMyProducts(localStorage.getItem('profileId')).subscribe({
+    this.getProducts();
+  }
+
+  getProducts(){
+    this.productService.getMyProducts(localStorage.getItem('profileId')).subscribe({
         next: (res)=> {this.products = res},
         error: (err) => {console.log(err)}
       })
@@ -39,38 +56,30 @@ export class ProductComponent implements OnInit{
   }
 
   openNew() {
+      this.selectedProduct = undefined;
       this.product = {};
       this.submitted = false;
       this.productDialog = true;
-  }
-
-  deleteSelectedProducts() {
-      this.confirmationService.confirm({
-          message: 'Are you sure you want to delete the selected products?',
-          header: 'Confirm',
-          icon: 'pi pi-exclamation-triangle',
-          accept: () => {
-              this.products = this.products.filter((val) => !this.selectedProducts?.includes(val));
-              this.selectedProducts = null;
-              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
-          }
-      });
+      this.create = true;
   }
 
   editProduct(product: Product) {
+      this.create = false;
       this.product = { ...product };
       this.productDialog = true;
   }
 
   deleteProduct(product: Product) {
       this.confirmationService.confirm({
-          message: 'Are you sure you want to delete ' + product.name + '?',
-          header: 'Confirm',
+          message: 'Seguro que quieres eliminar ' + product.name + '?',
+          header: 'Confirmar',
           icon: 'pi pi-exclamation-triangle',
           accept: () => {
-              this.products = this.products.filter((val) => val.productId !== product.productId);
-              this.product = {};
-              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
+              this.drugstoreProductService.deleteDrugstoreProduct(localStorage.getItem('profileId'),product.productId).subscribe({
+                next: ()=> {
+                    this.getProducts()
+                    this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Producto Eliminado', life: 3000 });}
+              })
           }
       });
   }
@@ -83,15 +92,32 @@ export class ProductComponent implements OnInit{
   saveProduct() {
       this.submitted = true;
 
-      if (this.product.name?.trim()) {
+      if (this.product.name?.trim() || this.selectedProduct?.name.trim()) {
           if (this.product.productId) {
+              let drugstoreProduct: DrugstoreProductEditable = {
+                price: this.product.price,
+                stock:this.product.stock
+              }
               this.products[this.findIndexById(this.product.productId)] = this.product;
-              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
+
+              this.drugstoreProductService.updateDrugstoreProduct(localStorage.getItem('profileId'),this.product.productId,drugstoreProduct).subscribe({
+                next: () => { 
+                    this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Producto Actualizado', life: 3000 });}
+              })
+
           } else {
-              this.product.productId = this.createId();
-              this.product.imageUrl = 'product-placeholder.svg';
-              this.products.push(this.product);
-              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
+            let drugstoreProduct: DrugstoreProduct= {
+                drugstoreId: localStorage.getItem('profileId'),
+                productId: this.selectedProduct?.id,
+                price: this.product.price,
+                stock:this.product.stock
+              }
+            this.drugstoreProductService.addDrugstoreProduct(drugstoreProduct).subscribe({
+                next: () => { 
+                    this.getProducts();
+                    this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Producto Creado', life: 3000 });},
+                error: () => {this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Producto ya registrado', life: 3000 })}
+              })
           }
 
           this.products = [...this.products];
@@ -112,12 +138,4 @@ export class ProductComponent implements OnInit{
       return index;
   }
 
-  createId(): string {
-      let id = '';
-      var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-      for (var i = 0; i < 5; i++) {
-          id += chars.charAt(Math.floor(Math.random() * chars.length));
-      }
-      return id;
-  }
 }
