@@ -1,6 +1,6 @@
 <section class="sale">
     <p-table
-    [value]="products"
+    [value]="sales"
     [paginator]="true"
     [rows]="5"
     [tableStyle]="{ 'min-width': '50rem' }"
@@ -14,18 +14,18 @@
     <ng-template pTemplate="header">
         <tr>
             <th style="width:25%">Código</th>
-            <th style="width:25%">Nombre</th>
-            <th style="width:25%">Categoría</th>
-            <th style="width:25%">Cantidad</th>
-            <th style="width:25%">Detalle</th>
+            <th style="width:25%">Cliente</th>
+            <th style="width:25%">Fecha</th>
+            <th style="width:25%">Monto</th>
+            <th style="width:25%">Ver Detalle</th>
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-product>
+    <ng-template pTemplate="body" let-purchase>
         <tr>
-            <td>{{ product.code }}</td>
-            <td>{{ product.name }}</td>
-            <td>{{ product.category }}</td>
-            <td>{{ product.quantity }}</td>
+            <td>{{ purchase.id }}</td>
+            <td>{{ purchase.customer }}</td>
+            <td>{{ purchase.date | date: 'dd/MM/yyyy' }}</td>
+            <td>{{ purchase.total }}</td>
             <td>
                 <p-button 
                         pRipple 
@@ -34,71 +34,21 @@
                         [rounded]="true" 
                         [outlined]="true" 
                         severity="success" 
-                        (click)="editProduct(product)" />
+                        (click)="editProduct(purchase)" />
             </td>
         </tr>
     </ng-template>
     </p-table>
     <p-dialog 
-        [(visible)]="productDialog" 
+        [(visible)]="purchaseDialog" 
         [style]="{ width: '450px' }" 
-        header="Detalles del Producto" 
+        header="Detalle de la compra" 
         [modal]="true" 
         styleClass="p-fluid">
             <ng-template pTemplate="content">
-                <div class="field">
-                    <label class="mb-3">Categoría</label>
-                    <div class="formgrid grid">
-                        <div class="field-radiobutton col-6">
-                            <p-radioButton 
-                                id="category1" 
-                                name="category" 
-                                value="Accessories" 
-                                [(ngModel)]="product.category" />
-                            <label for="category1">Accessories</label>
-                        </div>
-                        <div class="field-radiobutton col-6">
-                            <p-radioButton 
-                                id="category2" 
-                                name="category" 
-                                value="Clothing" 
-                                [(ngModel)]="product.category" />
-                            <label for="category2">Clothing</label>
-                        </div>
-                        <div class="field-radiobutton col-6">
-                            <p-radioButton 
-                                id="category3" 
-                                name="category" 
-                                value="Electronics" 
-                                [(ngModel)]="product.category" />
-                            <label for="category3">Electronics</label>
-                        </div>
-                        <div class="field-radiobutton col-6">
-                            <p-radioButton 
-                                id="category4" 
-                                name="category" 
-                                value="Fitness" 
-                                [(ngModel)]="product.category" />
-                            <label for="category4">Fitness</label>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="formgrid grid">
                     <div class="field col">
-                        <label for="price">Precio</label>
-                        <p-inputNumber 
-                            id="price" 
-                            [(ngModel)]="product.price" 
-                            mode="currency" 
-                            currency="PER" 
-                            locale="es" />
-                    </div>
-                    <div class="field col">
-                        <label for="quantity">Stock</label>
-                        <p-inputNumber 
-                            id="quantity" 
-                            [(ngModel)]="product.stock" />
+                        <h3>Código: {{purchase.id}}</h3>
                     </div>
                 </div>
             </ng-template>

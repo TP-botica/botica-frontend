@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../../../../domain/product';
 import { ProductService } from '../../../../service/product.service';
+import { PurchaseService } from '../../../../service/purchase.service';
+import { Purchase } from '../../../../domain/purchase';
 
 @Component({
   selector: 'app-sale',
@@ -10,24 +12,26 @@ import { ProductService } from '../../../../service/product.service';
 })
 export class SaleComponent implements OnInit {
   basicData: any;
-  products!: Product[];
+  sales!: Purchase[];
   basicOptions: any;
 
   data: any;
 
   options: any;
 
-  product!: Product;
-  productDialog: boolean = false;
+  purchase!: Purchase;
+  purchaseDialog: boolean = false;
 
-  constructor( private productService: ProductService){
+  constructor(private purchaseService: PurchaseService){
     this.getData()
   }
 
   ngOnInit() {
-    //this.productService.getProducts().then((data) => {
-     // this.products = data;
-  //});
+    this.purchaseService.getMySales(localStorage.getItem('profileId')).subscribe(
+        {
+            next: (res) => {this.sales = res}
+        }
+    );
   }
 
   getData(){
@@ -102,12 +106,11 @@ export class SaleComponent implements OnInit {
   };
   }
 
-  editProduct(product: Product) {
-    this.product = { ...product };
-    this.productDialog = true;
+  editProduct(purchase: Purchase) {
+    this.purchase = { ...purchase };
+    this.purchaseDialog = true;
 }
 
 hideDialog() {
-    this.productDialog = false;}
-
+    this.purchaseDialog = false;}
 }
