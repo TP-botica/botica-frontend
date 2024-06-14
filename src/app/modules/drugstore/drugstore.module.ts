@@ -17,7 +17,7 @@ import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { ChartModule } from 'primeng/chart';
+import { OrderListModule } from 'primeng/orderlist';
 import { SaleComponent } from './components/sale/sale.component';
 import { DrugstoreHomeComponent } from './components/drugstore-home/drugstore-home.component';
 import { ServiceComponent } from './components/service/service.component';
@@ -29,8 +29,6 @@ import { ServiceComponent } from './components/service/service.component';
     DrugstoreRoutingModule,
     TableModule, ToolbarModule, ToastModule, ButtonModule,
      TagModule, RadioButtonModule, FormsModule, ConfirmDialogModule, DropdownModule, DialogModule,
-    InputTextModule, InputTextareaModule, InputNumberModule,
-    ChartModule
-  ]
+    InputTextModule, InputTextareaModule, InputNumberModule, OrderListModule  ]
 })
 export class DrugstoreModule { }

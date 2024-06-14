@@ -42,15 +42,28 @@
     <p-dialog 
         [(visible)]="purchaseDialog" 
         [style]="{ width: '450px' }" 
-        header="Detalle de la compra" 
         [modal]="true" 
         styleClass="p-fluid">
             <ng-template pTemplate="content">
-                <div class="formgrid grid">
-                    <div class="field col">
-                        <h3>Código: {{purchase.id}}</h3>
+                <p-orderList 
+                [value]="purchaseDetails" 
+                [listStyle]="{ height: '25rem' }" 
+                header="Detalle de compra {{purchase.id}}">
+                <ng-template let-purchaseDetail pTemplate="item">
+                    <span class="font-bold">{{ purchaseDetail.name }}</span>
+                    <div class="flex flex-wrap p-2 align-items-center gap-3">
+                        <span>
+                            {{ 'Cantidad: ' + purchaseDetail.quantity }}
+                        </span>
+                        <span>
+                            {{ 'Precio: S/.' + purchaseDetail.price }}
+                        </span>
+                        <span>
+                            {{ 'Descuento: S/.' + purchaseDetail.discount }}
+                        </span>
                     </div>
-                </div>
+                </ng-template>
+            </p-orderList>
             </ng-template>
 
             <ng-template pTemplate="footer">
@@ -62,9 +75,4 @@
                     (click)="hideDialog()" />
             </ng-template>
     </p-dialog>
-
-    <div class="card">
-        <p-chart class="chart" type="pie" [data]="data" [options]="options"/>
-        <p-chart class="chart" type="bar" [data]="basicData"  [options]="basicOptions"/>
-    </div>
 </section>

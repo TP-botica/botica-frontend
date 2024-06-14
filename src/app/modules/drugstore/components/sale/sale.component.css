@@ -4,28 +4,8 @@
     padding: 2rem;
 }
 
-.card {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2.5rem;
-    justify-content: center; /* Centra los gráficos verticalmente */
-    align-items: center; /* Centra los gráficos horizontalmente */
-    padding: 2rem;
-}
-
-.chart {
-    width: 500px;
-}
-
-@media screen and (max-width: 500px) {
-    .chart {
-        width: 100%;
+:host ::ng-deep 
+    .p-orderlist-controls{
+      display: none;
     }
-}
-
-@media screen and (min-width: 501px) {
-    .chart {
-        width: 500px;
-    }
-}
+  
