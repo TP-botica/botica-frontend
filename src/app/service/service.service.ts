@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { myUrl } from '../constants/constants';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Product, Option } from '../domain/product';
+import { Option } from '../domain/product';
+import { Service } from '../domain/service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService {
-    url = `${myUrl}/product`
+export class ServiceService {
+    url = `${myUrl}/service`
     headers = new HttpHeaders()
     
     constructor(private http : HttpClient) { 
@@ -16,11 +17,11 @@ export class ProductService {
       .append('Authorization', 'Bearer ' + localStorage.getItem('token'));
     }
 
-    getMyProducts(id:any) {
-        return this.http.get<Product[]>(`${this.url}/allMyProducts/${id}`, { headers: this.headers });
+    getMyServices(id:any) {
+        return this.http.get<Service[]>(`${this.url}/allMyServices/${id}`, { headers: this.headers });
     }
 
-    getProductOptions() {
+    getServiceOptions() {
       return this.http.get<Option[]>(`${this.url}/all/options`, { headers: this.headers });
   }
 

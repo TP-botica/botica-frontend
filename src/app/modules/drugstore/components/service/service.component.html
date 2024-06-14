@@ -14,7 +14,7 @@
 
     <p-table
         #dt
-        [value]="products"
+        [value]="services"
         [rows]="10"
         [paginator]="true"
         [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
@@ -47,32 +47,26 @@
                 <th pSortableColumn="category" style="min-width:10rem">
                     Categoría <p-sortIcon field="category" />
                 </th>
-                <th pSortableColumn="inventoryStatus" style="min-width:10rem">
-                    Stock <p-sortIcon field="inventoryStatus" />
-                </th>
                 <th></th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-product>
+        <ng-template pTemplate="body" let-service>
             <tr>
                 <td>
-                    {{ product.name }}
+                    {{ service.name }}
                 </td>
                 <td>
                 <img 
-                    [src]="product.imageUrl" 
-                    [alt]="product.name" 
+                    [src]="service.imageUrl" 
+                    [alt]="service.name" 
                     width="50" 
                     class="shadow-4" />
                 </td>
                 <td>
-                    {{ product.price | currency : 'S/. ' }}
+                    {{ service.price | currency : 'S/. ' }}
                 </td>
                 <td>
-                    {{ product.category }}
-                </td>
-                <td>
-                    {{product.stock}}
+                    {{ service.category }}
                 </td>
                 <td>
                     <p-button 
@@ -82,14 +76,14 @@
                         [rounded]="true" 
                         [outlined]="true" 
                         severity="success" 
-                        (click)="editProduct(product)" />
+                        (click)="editService(service)" />
                     <p-button 
                         pRipple 
                         icon="pi pi-trash" 
                         severity="danger" 
                         [rounded]="true" 
                         [outlined]="true" 
-                        (click)="deleteProduct(product)" />
+                        (click)="deleteService(service)" />
                 </td>
             </tr>
         </ng-template>
@@ -105,20 +99,20 @@
                 @if(create){
                     <p-dropdown 
                     class="product-selector"
-                    [options]="productOptions" 
-                    [(ngModel)]="selectedProduct" 
+                    [options]="serviceOptions" 
+                    [(ngModel)]="selectedService" 
                     optionLabel="name"
-                    placeholder="Selecciona un producto" />
+                    placeholder="Selecciona un servicio" />
                     <div class="skeleton"></div>
                 }
                 @else {
                     <img 
-                    [src]="product.imageUrl" 
-                    [alt]="product.name" 
+                    [src]="service.imageUrl" 
+                    [alt]="service.name" 
                     class="image-dialog pb-3" 
-                    *ngIf="product.imageUrl" />
+                    *ngIf="service.imageUrl" />
                     <div class="field">
-                        <h2>{{product.name}}</h2>
+                        <h2>{{service.name}}</h2>
                     </div>
                 }
                 <div class="formgrid grid">
@@ -126,16 +120,10 @@
                         <label for="price">Precio</label>
                         <p-inputNumber 
                             id="price" 
-                            [(ngModel)]="product.price" 
+                            [(ngModel)]="service.price" 
                             mode="currency" 
                             currency="PEN" 
                             locale="es-PE" />
-                    </div>
-                    <div class="field col">
-                        <label for="quantity">Stock</label>
-                        <p-inputNumber 
-                            id="quantity" 
-                            [(ngModel)]="product.stock" />
                     </div>
                 </div>
             </ng-template>
@@ -152,7 +140,7 @@
                     label="Guardar" 
                     icon="pi pi-check" 
                     [text]="true" 
-                    (click)="saveProduct()" />
+                    (click)="saveService()" />
             </ng-template>
     </p-dialog>
 

@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { Product, ProductOption } from '../../../../domain/product';
-import { ProductService } from '../../../../service/product.service';
+import { Option } from '../../../../domain/product';
 import { Table } from 'primeng/table';
-import { DrugstoreProduct, DrugstoreProductEditable } from '../../../../domain/drugstore-product';
-import { DrugstoreProductService } from '../../../../service/drugstore-product.service';
+import { DrugstoreProduct } from '../../../../domain/drugstore-product';
+import { Service } from '../../../../domain/service';
+import { ServiceService } from '../../../../service/service.service';
+import { DrugstoreServiceService } from '../../../../service/drugstore-service.service';
+import { DrugstoreService, DrugstoreServiceEditable } from '../../../../domain/drugstore-service';
 
 @Component({
   selector: 'app-service',
@@ -17,13 +19,13 @@ export class ServiceComponent implements OnInit{
   
     productDialog: boolean = false;
   
-    products!: Product[];
+    services!: Service[];
   
-    product!: Product;
+    service!: Service;
   
-    productOptions: ProductOption[] | undefined;
+    serviceOptions: Option[] | undefined;
   
-    selectedProduct: ProductOption | undefined;
+    selectedService: Option | undefined;
   
     submitted: boolean = false;
   
@@ -31,22 +33,22 @@ export class ServiceComponent implements OnInit{
   
     statuses!: any[];
   
-    constructor(private productService: ProductService, private messageService: MessageService,
-       private confirmationService: ConfirmationService, private drugstoreProductService: DrugstoreProductService) {
-          productService.getProductOptions().subscribe({
+    constructor(private serviceService: ServiceService, private messageService: MessageService,
+       private confirmationService: ConfirmationService, private drugstoreServiceService: DrugstoreServiceService) {
+          serviceService.getServiceOptions().subscribe({
               next: (res: any) => {
-                this.productOptions = res
+                this.serviceOptions = res
               }
             })
        }
   
     ngOnInit() {
-      this.getProducts();
+      this.getServices();
     }
   
-    getProducts(){
-      this.productService.getMyProducts(localStorage.getItem('profileId')).subscribe({
-          next: (res)=> {this.products = res},
+    getServices(){
+      this.serviceService.getMyServices(localStorage.getItem('profileId')).subscribe({
+          next: (res)=> {this.services = res},
           error: (err) => {console.log(err)}
         })
     }
@@ -56,29 +58,29 @@ export class ServiceComponent implements OnInit{
     }
   
     openNew() {
-        this.selectedProduct = undefined;
-        this.product = {};
+        this.selectedService = undefined;
+        this.service = {};
         this.submitted = false;
         this.productDialog = true;
         this.create = true;
     }
   
-    editProduct(product: Product) {
+    editService(service: Service) {
         this.create = false;
-        this.product = { ...product };
+        this.service = { ...service };
         this.productDialog = true;
     }
   
-    deleteProduct(product: Product) {
+    deleteService(service: Service) {
         this.confirmationService.confirm({
-            message: 'Seguro que quieres eliminar ' + product.name + '?',
+            message: 'Seguro que quieres eliminar ' + service.name + '?',
             header: 'Confirmar',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
-                this.drugstoreProductService.deleteDrugstoreProduct(localStorage.getItem('profileId'),product.productId).subscribe({
+                this.drugstoreServiceService.deleteDrugstoreService(localStorage.getItem('profileId'),service.serviceId).subscribe({
                   next: ()=> {
-                      this.getProducts()
-                      this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Producto Eliminado', life: 3000 });}
+                      this.getServices()
+                      this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Servicio Eliminado', life: 3000 });}
                 })
             }
         });
@@ -89,47 +91,45 @@ export class ServiceComponent implements OnInit{
         this.submitted = false;
     }
   
-    saveProduct() {
+    saveService() {
         this.submitted = true;
   
-        if (this.product.name?.trim() || this.selectedProduct?.name.trim()) {
-            if (this.product.productId) {
-                let drugstoreProduct: DrugstoreProductEditable = {
-                  price: this.product.price,
-                  stock:this.product.stock
+        if (this.service.name?.trim() || this.selectedService?.name.trim()) {
+            if (this.service.serviceId) {
+                let drugstoreService: DrugstoreServiceEditable = {
+                  price: this.service.price,
                 }
-                this.products[this.findIndexById(this.product.productId)] = this.product;
+                this.services[this.findIndexById(this.service.serviceId)] = this.service;
   
-                this.drugstoreProductService.updateDrugstoreProduct(localStorage.getItem('profileId'),this.product.productId,drugstoreProduct).subscribe({
+                this.drugstoreServiceService.updateDrugstoreService(localStorage.getItem('profileId'),this.service.serviceId, drugstoreService).subscribe({
                   next: () => { 
-                      this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Producto Actualizado', life: 3000 });}
+                      this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Servicio Actualizado', life: 3000 });}
                 })
   
             } else {
-              let drugstoreProduct: DrugstoreProduct= {
+              let drugstoreService: DrugstoreService= {
                   drugstoreId: localStorage.getItem('profileId'),
-                  productId: this.selectedProduct?.id,
-                  price: this.product.price,
-                  stock:this.product.stock
+                  serviceId: this.selectedService?.id,
+                  price: this.service.price
                 }
-              this.drugstoreProductService.addDrugstoreProduct(drugstoreProduct).subscribe({
+              this.drugstoreServiceService.addDrugstoreService(drugstoreService).subscribe({
                   next: () => { 
-                      this.getProducts();
-                      this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Producto Creado', life: 3000 });},
-                  error: () => {this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Producto ya registrado', life: 3000 })}
+                      this.getServices();
+                      this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Servicio Creado', life: 3000 });},
+                  error: () => {this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Servicio ya registrado', life: 3000 })}
                 })
             }
   
-            this.products = [...this.products];
+            this.services = [...this.services];
             this.productDialog = false;
-            this.product = {};
+            this.service = {};
         }
     }
   
     findIndexById(id: string): number {
         let index = -1;
-        for (let i = 0; i < this.products.length; i++) {
-            if (this.products[i].productId === id) {
+        for (let i = 0; i < this.services.length; i++) {
+            if (this.services[i].serviceId === id) {
                 index = i;
                 break;
             }

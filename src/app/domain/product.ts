@@ -7,7 +7,7 @@ export interface Product {
     stock?: number;
 }
 
-export interface ProductOption{
+export interface Option{
  id: string;
  name: string;
 }

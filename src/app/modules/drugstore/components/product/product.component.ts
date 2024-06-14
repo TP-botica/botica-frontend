@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Product, ProductOption } from '../../../../domain/product';
+import { Product, Option } from '../../../../domain/product';
 import { ProductService } from '../../../../service/product.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
@@ -21,9 +21,9 @@ export class ProductComponent implements OnInit{
 
   product!: Product;
 
-  productOptions: ProductOption[] | undefined;
+  productOptions: Option[] | undefined;
 
-  selectedProduct: ProductOption | undefined;
+  selectedProduct: Option | undefined;
 
   submitted: boolean = false;
 
