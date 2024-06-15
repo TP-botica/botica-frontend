@@ -24,6 +24,10 @@ export class ServiceService {
         return this.http.get<Service[]>(`${this.url}/allMyServices/${id}`, { headers: this.headers });
     }
 
+    getServicesByCategory(id:any) {
+      return this.http.get<ProductServiceView[]>(`${this.url}/allByCategory/${id}`, { headers: this.headers });
+  }
+
     getServiceOptions() {
       return this.http.get<Option[]>(`${this.url}/all/options`, { headers: this.headers });
   }

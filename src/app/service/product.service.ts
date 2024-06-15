@@ -22,7 +22,9 @@ export class ProductService {
     getMyProducts(id:any) {
         return this.http.get<Product[]>(`${this.url}/allMyProducts/${id}`, { headers: this.headers });
     }
-
+    getProductsByCategory(id:any) {
+      return this.http.get<ProductServiceView[]>(`${this.url}/allByCategory/${id}`, { headers: this.headers });
+  }
     getProductOptions() {
       return this.http.get<Option[]>(`${this.url}/all/options`, { headers: this.headers });
   }

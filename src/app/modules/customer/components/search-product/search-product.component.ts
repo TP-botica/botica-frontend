@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductServiceView } from '../../../../domain/product';
+import { Option, ProductServiceView } from '../../../../domain/product';
 import { ProductService } from '../../../../service/product.service';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Role } from '../../../../domain/role';
 import { RoleService } from '../../../../service/role.service';
 import { ServiceService } from '../../../../service/service.service';
+import { CategoryService } from '../../../../service/category.service';
 
 @Component({
   selector: 'app-search-product',
@@ -17,17 +17,26 @@ export class SearchProductComponent implements OnInit {
   products!: ProductServiceView[];
   formGroup!: FormGroup;
   filteredProducts: ProductServiceView[] = [];
-  roles: Role[] | undefined;
-  selectedRole: Role | undefined;
+  options: Option[] | undefined;
+  selectedOption: Option | undefined;
   displayProducts: ProductServiceView[] = [];
 
-  constructor(private roleService: RoleService, private productService: ProductService, private serviceService: ServiceService) {
-    this.roleService.getRoles().subscribe({
-      next: (res: any) => {
-        this.roles = res;
-      }
-    });
+  constructor(private roleService: RoleService, private productService: ProductService,
+     private serviceService: ServiceService, private categoryService: CategoryService) {
+    this.getProductCategories();
     this.getProducts();
+  }
+
+  getProductCategories(){
+    this.categoryService.getCategoryProductOptions().subscribe({
+      next: (res)=> {this.options = res;}
+    })
+  }
+
+  getServiceCategories(){
+    this.categoryService.getCategoryServiceOptions().subscribe({
+      next: (res)=> {this.options = res;}
+    })
   }
 
   getProducts(){
@@ -37,6 +46,23 @@ export class SearchProductComponent implements OnInit {
       }
     });
   }
+
+  getProductsByCategory(id: string){
+    this.productService.getProductsByCategory(id).subscribe({
+      next: (res) => { this.products = res; 
+        this.displayProducts = this.products
+      }
+    });
+  }
+
+  getServicesByCategory(id: string){
+    this.serviceService.getServicesByCategory(id).subscribe({
+      next: (res) => { this.products = res; 
+        this.displayProducts = this.products
+      }
+    });
+  }
+
   getServices(){
     this.serviceService.getServices().subscribe({
       next: (res) => { this.products = res; 
@@ -69,12 +95,30 @@ export class SearchProductComponent implements OnInit {
     }
   }
 
-  change(){
-    if(this.value){
+  filterByCategory(){
+    console.log(this.selectedOption)
+    if(this.selectedOption && this.value){
+      this.getProductsByCategory(this.selectedOption.id)
+    }
+    else if(this.selectedOption && !this.value){
+      this.getServicesByCategory(this.selectedOption.id)
+    }
+    else if(this.value){
       this.getProducts()
     }
     else{
       this.getServices()
+    }
+  }
+
+  change(){
+    if(this.value){
+      this.getProducts()
+      this.getProductCategories()
+    }
+    else{
+      this.getServices()
+      this.getServiceCategories()
     }
   }
 }
