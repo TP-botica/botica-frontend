@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { myUrl } from '../constants/constants';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Product, Option } from '../domain/product';
+import { Product, Option, ProductServiceView } from '../domain/product';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +16,9 @@ export class ProductService {
       .append('Authorization', 'Bearer ' + localStorage.getItem('token'));
     }
 
+    getProducts() {
+        return this.http.get<ProductServiceView[]>(`${this.url}/all`, { headers: this.headers });
+    }
     getMyProducts(id:any) {
         return this.http.get<Product[]>(`${this.url}/allMyProducts/${id}`, { headers: this.headers });
     }

@@ -1,63 +1,80 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from '../../../../domain/product';
+import { ProductServiceView } from '../../../../domain/product';
 import { ProductService } from '../../../../service/product.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Role } from '../../../../domain/role';
 import { RoleService } from '../../../../service/role.service';
-
-interface AutoCompleteCompleteEvent {
-  originalEvent: Event;
-  query: string;
-}
-
+import { ServiceService } from '../../../../service/service.service';
 
 @Component({
   selector: 'app-search-product',
   templateUrl: './search-product.component.html',
-  styleUrl: './search-product.component.css'
+  styleUrls: ['./search-product.component.css']
 })
-export class SearchProductComponent implements OnInit{
-  value: string = '0';
-  stateOptions: any[] = [{ label: 'Productos', value: '0' },{ label: 'Servicios', value: '1' }];
+export class SearchProductComponent implements OnInit {
+  value: boolean = true;
 
-  products!: Product[];
-
+  products!: ProductServiceView[];
   formGroup!: FormGroup;
-
-  filteredProducts: any[] = [];
-
+  filteredProducts: ProductServiceView[] = [];
   roles: Role[] | undefined;
-
   selectedRole: Role | undefined;
-  
-  constructor(roleService: RoleService, private productService: ProductService){
-    roleService.getRoles().subscribe({
+  displayProducts: ProductServiceView[] = [];
+
+  constructor(private roleService: RoleService, private productService: ProductService, private serviceService: ServiceService) {
+    this.roleService.getRoles().subscribe({
       next: (res: any) => {
-        this.roles = res
+        this.roles = res;
       }
-    })
+    });
+    this.getProducts();
   }
 
-
-  ngOnInit() {
-      //this.productService.getProducts().then((data) => (this.products = data.slice(0, 12)));
-      this.formGroup = new FormGroup({
-        selectedCountry: new FormControl<object | null>(null)
+  getProducts(){
+    this.productService.getProducts().subscribe({
+      next: (res) => { this.products = res; 
+        this.displayProducts = this.products
+      }
+    });
+  }
+  getServices(){
+    this.serviceService.getServices().subscribe({
+      next: (res) => { this.products = res; 
+        this.displayProducts = this.products
+      }
     });
   }
 
-  filterProduct(event: AutoCompleteCompleteEvent) {
-    let filtered: any[] = [];
-    let query = event.query;
+  ngOnInit() {
+    this.formGroup = new FormGroup({
+      selectedProduct: new FormControl<object | null>(null)
+    });
+  }
 
-    for (let i = 0; i < (this.products as any[]).length; i++) {
-        let product = (this.products as any[])[i];
-        if (product.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-            filtered.push(product);
-        }
+  filterProduct() {
+    let query = this.formGroup.get('selectedProduct')?.value;
+    if (typeof query === 'string' && query.length > 3) {
+      this.filteredProducts = this.products.filter(product =>
+        product.name.toLowerCase().includes(query.toLowerCase())
+      );
+      this.displayProducts = this.filteredProducts;
+    } else if (typeof query === 'object' && query !== null) {
+      this.filteredProducts = this.products.filter(product =>
+        product.name.toLowerCase().includes(query.name.toLowerCase())
+      );
+      this.displayProducts = this.filteredProducts;
+    } else {
+      this.filteredProducts = [];
+      this.displayProducts = this.products;
     }
+  }
 
-    this.filteredProducts = filtered;
-}
- 
+  change(){
+    if(this.value){
+      this.getProducts()
+    }
+    else{
+      this.getServices()
+    }
+  }
 }

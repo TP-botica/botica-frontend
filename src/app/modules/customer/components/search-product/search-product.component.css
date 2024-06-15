@@ -12,3 +12,15 @@
     gap: 1rem;
     justify-content: space-between;
 }
+
+.image-container{
+    height: 300px;
+}
+
+.image-box{
+    place-content: center;
+}
+
+.image{
+    max-height: 100%;
+}

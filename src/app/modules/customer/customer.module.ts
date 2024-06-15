@@ -19,6 +19,8 @@ import { DataViewModule } from 'primeng/dataview';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { FloatLabelModule } from 'primeng/floatlabel';
+import { OrderListModule } from 'primeng/orderlist';
+import { ToggleButtonModule } from 'primeng/togglebutton';
 
 
 import { CustomerRoutingModule } from './customer-routing.module';
@@ -34,7 +36,7 @@ import { SearchProductComponent } from './components/search-product/search-produ
     CustomerRoutingModule,
     TableModule, ToolbarModule, ToastModule, ButtonModule, TagModule, RadioButtonModule, FormsModule, ConfirmDialogModule, 
     DropdownModule, DialogModule, InputTextModule, InputTextareaModule, InputNumberModule, SelectButtonModule, DataViewModule
-    ,ReactiveFormsModule, AutoCompleteModule, FloatLabelModule
+    ,ReactiveFormsModule, AutoCompleteModule, FloatLabelModule, OrderListModule,ToggleButtonModule
   ]
 })
 export class CustomerModule { }

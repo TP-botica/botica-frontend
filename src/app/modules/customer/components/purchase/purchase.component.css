@@ -3,3 +3,9 @@
     width: 100%;
     padding: 2rem;
 }
+
+:host ::ng-deep 
+    .p-orderlist-controls{
+      display: none;
+    }
+  
