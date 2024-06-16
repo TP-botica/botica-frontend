@@ -27,10 +27,11 @@ import { CustomerRoutingModule } from './customer-routing.module';
 import { CustomerHomeComponent } from './components/customer-home/customer-home.component';
 import { PurchaseComponent } from './components/purchase/purchase.component';
 import { SearchProductComponent } from './components/search-product/search-product.component';
+import { MapComponent } from './components/map/map.component';
 
 
 @NgModule({
-  declarations: [CustomerHomeComponent, PurchaseComponent, SearchProductComponent],
+  declarations: [CustomerHomeComponent, PurchaseComponent, SearchProductComponent, MapComponent],
   imports: [
     CommonModule,
     CustomerRoutingModule,

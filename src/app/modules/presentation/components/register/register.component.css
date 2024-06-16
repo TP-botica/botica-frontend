@@ -6,6 +6,16 @@
     align-items: center;
 }
 
+.map {
+    width: 100%;
+    height: 400px;
+}
+#inputPlaces{
+    width: 600px;
+    height: 40px;
+    z-index: 2000;
+}
+
 ::ng-deep 
     .p-dropdown{
         width: 100%;

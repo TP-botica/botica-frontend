@@ -3,7 +3,7 @@ export interface UserRegister{
     email: string;
     password: string;
     repeatedPassword: string;
-    latitude: string;
-    longitude: string;
+    latitude: any;
+    longitude: any;
     roleId: string;
 }
