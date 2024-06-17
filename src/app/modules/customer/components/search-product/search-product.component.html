@@ -47,7 +47,7 @@
               <div class="flex flex-column gap-4 mt-4">
                 <div class="flex gap-2">
                   @if(value){
-                    <p-button icon="pi pi-shopping-cart" class="flex-auto md:flex-initial white-space-nowrap" label="Agregar al carrito"></p-button>
+                    <p-button (onClick)="gotoMap(product.id)" icon="pi pi-shopping-cart" class="flex-auto md:flex-initial white-space-nowrap" label="Comprar"></p-button>
                   }
                   @else {
                     <p-button class="flex-auto md:flex-initial white-space-nowrap" label="Ver detalle"></p-button>

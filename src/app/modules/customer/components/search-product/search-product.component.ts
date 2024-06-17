@@ -5,6 +5,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { RoleService } from '../../../../service/role.service';
 import { ServiceService } from '../../../../service/service.service';
 import { CategoryService } from '../../../../service/category.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search-product',
@@ -22,7 +23,7 @@ export class SearchProductComponent implements OnInit {
   displayProducts: ProductServiceView[] = [];
 
   constructor(private roleService: RoleService, private productService: ProductService,
-     private serviceService: ServiceService, private categoryService: CategoryService) {
+     private serviceService: ServiceService, private categoryService: CategoryService, private router: Router) {
     this.getProductCategories();
     this.getProducts();
   }
@@ -96,7 +97,6 @@ export class SearchProductComponent implements OnInit {
   }
 
   filterByCategory(){
-    console.log(this.selectedOption)
     if(this.selectedOption && this.value){
       this.getProductsByCategory(this.selectedOption.id)
     }
@@ -109,6 +109,10 @@ export class SearchProductComponent implements OnInit {
     else{
       this.getServices()
     }
+  }
+
+  gotoMap(productId: string){
+    this.router.navigate(['/customer/map', productId]);
   }
 
   change(){

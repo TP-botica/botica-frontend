@@ -18,7 +18,7 @@ const routes: Routes = [
     component: CustomerNavbarComponent,
     loadChildren: () =>
       import ('../customer/customer.module').then(m=>m.CustomerModule),
-    canActivate: [customerGuard],
+      canActivate: [customerGuard],
   },
   {
     path:'drugstore',

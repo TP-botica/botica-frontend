@@ -22,7 +22,6 @@ export class RegisterComponent implements OnInit{
   formMaps!: FormGroup;
   autocomplete!: google.maps.places.Autocomplete;
   marker!: google.maps.Marker;
-  show: boolean = false;
 
   user: UserRegister = {
     name: '',

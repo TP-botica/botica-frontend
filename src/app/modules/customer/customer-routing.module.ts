@@ -10,7 +10,7 @@ import { MapComponent } from './components/map/map.component';
 
 const routes: Routes = [
   {path: '', component: CustomerHomeComponent},
-  {path: 'map', component:MapComponent},
+  {path: 'map/:productId', component:MapComponent},
   {path: 'pay', component:PayComponent},
   {path: 'purchase', component:PurchaseComponent},
   {path: 'search-product', component:SearchProductComponent},

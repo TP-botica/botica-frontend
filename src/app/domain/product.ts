@@ -14,6 +14,14 @@ export interface ProductServiceView{
     category: string;
 }
 
+export interface ProductInfo {
+    name: string;
+    description: string;
+    prescriptionRequired: boolean;
+    imageUrl: string;
+    category: string;
+}
+
 export interface Option{
  id: string;
  name: string;

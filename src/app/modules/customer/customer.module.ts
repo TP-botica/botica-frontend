@@ -21,6 +21,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { OrderListModule } from 'primeng/orderlist';
 import { ToggleButtonModule } from 'primeng/togglebutton';
+import { CardModule } from 'primeng/card';
 
 
 import { CustomerRoutingModule } from './customer-routing.module';
@@ -37,7 +38,7 @@ import { MapComponent } from './components/map/map.component';
     CustomerRoutingModule,
     TableModule, ToolbarModule, ToastModule, ButtonModule, TagModule, RadioButtonModule, FormsModule, ConfirmDialogModule, 
     DropdownModule, DialogModule, InputTextModule, InputTextareaModule, InputNumberModule, SelectButtonModule, DataViewModule
-    ,ReactiveFormsModule, AutoCompleteModule, FloatLabelModule, OrderListModule,ToggleButtonModule
+    ,ReactiveFormsModule, AutoCompleteModule, FloatLabelModule, OrderListModule,ToggleButtonModule,CardModule
   ]
 })
 export class CustomerModule { }
