@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { myUrl } from '../constants/constants';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Option, ProductServiceView } from '../domain/product';
-import { Service } from '../domain/service';
+import { Service, ServiceInfo } from '../domain/service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +16,11 @@ export class ServiceService {
       .append('Content-Type', 'application/json')
       .append('Authorization', 'Bearer ' + localStorage.getItem('token'));
     }
+
+    getServiceById(serviceId: any){
+      return this.http.get<ServiceInfo>(`${this.url}/searchById/${serviceId}`, { headers: this.headers });
+    }
+
     getServices() {
       return this.http.get<ProductServiceView[]>(`${this.url}/all`, { headers: this.headers });
     }

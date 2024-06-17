@@ -111,9 +111,14 @@ export class SearchProductComponent implements OnInit {
     }
   }
 
-  gotoMap(productId: string){
-    this.router.navigate(['/customer/map', productId]);
+  gotoMapProduct(productId: string){
+    this.router.navigate(['/customer/mapProduct', productId]);
   }
+
+  gotoMapService(serviceId: string){
+    this.router.navigate(['/customer/mapService', serviceId]);
+  }
+
 
   change(){
     if(this.value){

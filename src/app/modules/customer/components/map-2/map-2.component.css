@@ -1,0 +1,67 @@
+.map {
+    width: 600px;
+    height: 580px;
+    border-radius: 6px;
+}
+
+.search-map{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 2rem;
+    padding: 1rem;
+    box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+    border-radius: 6px;
+    justify-content: center;
+}
+
+h3{
+    margin: 0 0 1rem 0;
+}
+
+.card{
+    width: 400px;
+}
+
+.image{
+    width: 400px;
+}
+
+@media (max-width: 1130px) {
+    .card{
+        width: 100%;
+        display: flex;
+        gap: 1rem;
+    }
+
+    .image-container{
+        text-align: center;
+    }
+}
+
+@media (max-width: 720px) {
+    .card{
+        width: 100%;
+        display: block;
+    }
+
+    .map-container{
+        width: 100%;
+    }
+
+    .map{
+        width: 100%;
+    }
+
+    .search-map{
+        margin: 1rem 0;
+        padding: 0;
+    }
+
+}
+
+@media (max-width: 430px) {
+    .image{
+        width: 100%;
+    }
+}

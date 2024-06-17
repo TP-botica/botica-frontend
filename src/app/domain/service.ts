@@ -5,3 +5,10 @@ export interface Service {
     price?: number;
     category?: string;
 }
+
+export interface ServiceInfo {
+    name: string;
+    description: string;
+    imageUrl: string;
+    category: string;
+}

@@ -8,3 +8,9 @@ export interface DrugstoreServiceEditable {
     price?: number;
 
 }
+
+export interface DrugstoreServiceView{
+    drugstore: string;
+    service: string;
+    price: number;
+}

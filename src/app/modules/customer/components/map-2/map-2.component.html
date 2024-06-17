@@ -1,0 +1,26 @@
+<section class="search-map">
+    @if(service){
+        <div class="card">
+            <div class="image-container">
+                <img class="image" [alt]="service.name" [src]="service.imageUrl" />
+            </div>
+            <div class="information">
+                <h1 class="product-title">{{service.name}}</h1>
+                <p class="description">{{service.description}}</p>            
+                <p class="detail-p"><b>Categoría:</b> {{service.category}}</p>
+            </div>
+    </div>
+    }
+    <div class="map-container">
+        <h3>Disponible en</h3>
+        <div class="map" #divMap></div>
+    </div>
+</section>
+@if(serviceDetail){
+<p-dialog header={{serviceDetail.service}} [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+   
+        <h3>Botica {{serviceDetail.drugstore}}</h3>
+        <p class="detail-p"><b>Precio:</b> S/. {{serviceDetail.price}}</p>
+  
+</p-dialog>
+}

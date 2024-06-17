@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { myUrl } from '../constants/constants';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { DrugstoreService } from '../domain/drugstore-service';
+import { DrugstoreService, DrugstoreServiceView } from '../domain/drugstore-service';
+import { DrugstoreLocation, DrugstoreProductView } from '../domain/drugstore-product';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,10 @@ export class DrugstoreServiceService {
     .append('Authorization', 'Bearer ' + localStorage.getItem('token'));
   }
 
+  getDetailsById(drugstoreId: any, serviceId: any){
+    return this.http.get<DrugstoreServiceView>(`${this.url}/searchById/${drugstoreId}/${serviceId}`, { headers: this.headers })
+  }
+
   addDrugstoreService(drugstoreService: DrugstoreService){
     return this.http.post(`${this.url}/register`, drugstoreService, { headers: this.headers } );
    }
@@ -26,6 +31,10 @@ export class DrugstoreServiceService {
 
    deleteDrugstoreService(drugstoreId: any, serviceId:any){
     return this.http.delete(`${this.url}/deleteById/${drugstoreId}/${serviceId}`, { headers: this.headers })
+   }
+
+   getDrugstoreLocations(serviceId: any){
+    return this.http.get<DrugstoreLocation[]>(`${this.url}/locations/${serviceId}`, { headers: this.headers })
    }
   
 }
