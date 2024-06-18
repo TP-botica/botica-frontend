@@ -4,7 +4,8 @@ import { DrugstoreLocation, DrugstoreProductView } from '../../../../domain/drug
 import { DrugstoreProductService } from '../../../../service/drugstore-product.service';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../../../../service/product.service';
-import { ProductInfo } from '../../../../domain/product';
+import { ProductInfo, ProductShoppingCart } from '../../../../domain/product';
+import { ShoppingCartService } from '../../../../service/shopping-cart.service';
 
 
 @Component({
@@ -21,10 +22,11 @@ export class MapComponent {
   product!: ProductInfo;
   productDetail!: DrugstoreProductView;
   visible: boolean = false;
+  drugstoreId!: string;
 
 
   constructor(private renderer: Renderer2,private drugstoreProductService: DrugstoreProductService, private route: ActivatedRoute,
-    private productService: ProductService
+    private productService: ProductService, private shoppingCartService: ShoppingCartService
   ) {
     const productId = this.route.snapshot.paramMap.get('productId');
 
@@ -94,7 +96,8 @@ export class MapComponent {
 
       // Agregar evento click al marcador
       google.maps.event.addListener(marker, 'click', () => {
-        this.drugstoreProductService.getDetailsById(position.drugstoreId, this.route.snapshot.paramMap.get('productId')).subscribe({
+        this.drugstoreId = position.drugstoreId
+        this.drugstoreProductService.getDetailsById(this.drugstoreId, this.route.snapshot.paramMap.get('productId')).subscribe({
           next: (res) =>{
             this.productDetail = res
             this.visible = true
@@ -104,5 +107,22 @@ export class MapComponent {
 
       this.markers.push(marker);
     });
+  }
+
+  addtoCart(){
+    this.visible = false
+    const product: ProductShoppingCart = {
+      id: this.route.snapshot.paramMap.get('productId'),
+      name: this.product.name,
+      drugstoreId: this.drugstoreId,
+      drugstore: this.productDetail.drugstore,
+      price: this.productDetail.price,
+      imageUrl: this.product.imageUrl,
+      category: this.product.category,
+      stock: this.productDetail.stock,
+      quantity: 1
+    }
+    this.shoppingCartService.addToCart(product);
+
   }
 }

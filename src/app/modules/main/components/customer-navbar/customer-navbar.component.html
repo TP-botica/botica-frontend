@@ -9,13 +9,15 @@
         </ng-template>
         <ng-template pTemplate="end">
             <div class="avatars-container">
-                <p-avatar 
-                (click)="sidebarVisible = true"
-                icon="pi pi-shopping-cart"
-                pBadge 
-                [style]="{ 'background-color': 'transparent'}" 
-                value="4"
-                />
+                @if(value>=0){
+                    <p-avatar 
+                    (click)="sidebarVisible = true"
+                    icon="pi pi-shopping-cart"
+                    pBadge 
+                    [style]="{ 'background-color': 'transparent'}" 
+                    [value]="value"
+                    />
+                }
                 <p-avatar icon="pi pi-user" shape="circle" (click)="op.toggle($event)"/>
             </div>
         </ng-template>
@@ -26,7 +28,26 @@
         <h3>Mis productos</h3>
     </header>
     <section class="products">
-
+        @for(product of productsList; track product.id){
+            <div class="product-container">
+                <div class="info">
+                    <div class="image-container">
+                        <img class="image" [src]="product.imageUrl" [alt]="product.name">
+                    </div>
+                    <div class="information">
+                        <p class="name"><b>{{product.name}}</b></p>
+                        <p>{{product.drugstore}}</p>
+                        <p>Cantidad: {{product.quantity}}</p>
+                    </div>
+                    <div class="price-container">
+                        <h3><b>S/. {{product.price}}</b></h3>
+                    </div>
+                </div>
+               <footer>
+                    <p-button label="Eliminar" [text]="true" severity="danger" (onClick)="deleteProduct(product.id, product.drugstoreId)"/>
+               </footer>
+            </div>
+        }
     </section>
     <section class="buttons">
         <p-button severity="secondary" routerLink='/customer/shopping-cart' (click)="sidebarVisible = false">

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
+import { ShoppingCartService } from '../../../../service/shopping-cart.service';
+import { ProductShoppingCart } from '../../../../domain/product';
 
 @Component({
   selector: 'app-customer-navbar',
@@ -10,12 +12,18 @@ import { MenuItem } from 'primeng/api';
 export class CustomerNavbarComponent implements OnInit {
   items: MenuItem[] | undefined;
   sidebarVisible: boolean = false;
+  value!: number;
+  productsList:ProductShoppingCart[] = [];
 
-  constructor(private router: Router){
-    
+  constructor(private router: Router, private shoppingCartService: ShoppingCartService){
+
   }
 
   ngOnInit() {
+    this.shoppingCartService.cart$.subscribe(cart => {
+      this.productsList = cart
+      this.value = cart.length;
+    });
       this.items = [
           {
               label: 'Inicio',
@@ -30,6 +38,10 @@ export class CustomerNavbarComponent implements OnInit {
               route:'/customer/purchase'
           }
       ]
+  }
+
+  deleteProduct(productId: any, drugstoreId: any){
+    this.shoppingCartService.removeFromCart(productId, drugstoreId);
   }
 
   logout(){

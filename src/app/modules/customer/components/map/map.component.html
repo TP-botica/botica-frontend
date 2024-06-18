@@ -25,7 +25,7 @@
         <p class="detail-p"><b>Stock:</b> {{productDetail.stock}} unidades</p>
   
     <div class="flex justify-content-end gap-2">
-        <p-button label="Agregar al carrito" severity="secondary" (click)="visible = false" />
+        <p-button label="Agregar al carrito" severity="secondary" (click)="addtoCart()" />
         <p-button label="Comprar ahora" (click)="visible = false" />
     </div>
 </p-dialog>

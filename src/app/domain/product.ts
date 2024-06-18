@@ -22,6 +22,18 @@ export interface ProductInfo {
     category: string;
 }
 
+export interface ProductShoppingCart{
+    id: any;
+    drugstoreId: string;
+    drugstore:string;
+    name:string;
+    price:number;
+    imageUrl:string;
+    category: string;
+    stock: number;
+    quantity: number;
+}
+
 export interface Option{
  id: string;
  name: string;
