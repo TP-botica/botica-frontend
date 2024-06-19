@@ -1,4 +1,5 @@
 <section class="login pt-3 pb-3">
+    <p-toast />
     <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6 login-card">
         <div class="text-center mb-5">
             <img src="logo.png" alt="Image" height="50" class="mb-3">
@@ -7,18 +8,37 @@
             <a routerLink="/register" class="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Regístrate</a>
         </div>
     
-        <div>
-            <label for="email" class="block text-900 font-medium mb-2">Correo</label>
-            <input [(ngModel)]="user.email" id="email" type="email" placeholder="Correo electrónico" pInputText class="w-full mb-3">
-    
-            <label for="password" class="block text-900 font-medium mb-2">Contraseña</label>
-            <input [(ngModel)]="user.password"  id="password" type="password" placeholder="Contraseña" pInputText class="w-full mb-3">
-    
-            <div class="flex align-items-center justify-content-between mb-6">
-                <a class="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer">Olvidaste tu contraseña?</a>
+        <form [formGroup]="loginForm" (ngSubmit)="login()">
+            <div>
+                <div class="input-container">
+                    <label for="email" class="block text-900 font-medium mb-2">Correo</label>
+                    <input formControlName="email" id="email" type="email" placeholder="Correo electrónico" pInputText class="w-full">
+                    @if(loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)){
+                        @if(loginForm.get('email')?.errors?.['required']){
+                            <small class="p-error">El correo es obligatorio.</small>
+                        }
+                        @if(loginForm.get('email')?.errors?.['email']){
+                            <small class="p-error">Formato de correo inválido.</small>
+
+                        }
+                    }
+                </div>
+                <div class="input-container">
+                    <label for="password" class="block text-900 font-medium mb-2">Contraseña</label>
+                    <input formControlName="password"  id="password" type="password" placeholder="Contraseña" pInputText class="w-full">
+                    @if(loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)){
+                        @if(loginForm.get('password')?.errors?.['required']){
+                            <small class="p-error">La contraseña es obligatoria.</small>
+        
+                        }
+                    }
+                </div>
+                <div class="flex align-items-center justify-content-between mb-6">
+                    <!--<a class="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer">Olvidaste tu contraseña?</a>-->
+                </div>
+        
+                <button type="submit" pButton pRipple label="Login" icon="pi pi-user" class="w-full" [disabled]="isValid()"></button>
             </div>
-    
-            <button pButton pRipple label="Login" icon="pi pi-user" class="w-full" (click)="login()" [disabled]="isValid()"></button>
-        </div>
+        </form>
     </div>
 </section>

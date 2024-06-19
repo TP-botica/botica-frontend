@@ -9,6 +9,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ToastModule } from 'primeng/toast';
 
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
@@ -19,7 +20,8 @@ import { RegisterComponent } from './components/register/register.component';
   imports: [
     CommonModule,
     PresentationRoutingModule,
-    CarouselModule, ButtonModule, TagModule, InputTextModule,DropdownModule,FormsModule,ReactiveFormsModule
+    CarouselModule, ButtonModule, TagModule, InputTextModule,DropdownModule,FormsModule,ReactiveFormsModule,
+    ToastModule
   ]
 })
 export class PresentationModule { }

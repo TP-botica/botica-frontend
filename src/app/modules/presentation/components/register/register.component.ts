@@ -1,21 +1,25 @@
 ///<reference path="../../../../../../node_modules/@types/googlemaps/index.d.ts"/>
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Role } from '../../../../domain/role';
 import { RoleService } from '../../../../service/role.service';
 import { UserRegister } from '../../../../domain/user-register';
 import { UserService } from '../../../../service/user.service';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  styleUrl: './register.component.css',
+  providers: [MessageService]
+
 })
 export class RegisterComponent implements OnInit{
   
   @ViewChild('divMap') divMap!: ElementRef;
   @ViewChild('inputPlaces') inputPlaces!: ElementRef;
+  registerForm!: FormGroup;
 
   mapa!: google.maps.Map;
   markers: google.maps.Marker[];
@@ -23,20 +27,12 @@ export class RegisterComponent implements OnInit{
   autocomplete!: google.maps.places.Autocomplete;
   marker!: google.maps.Marker;
 
-  user: UserRegister = {
-    name: '',
-    email:'',
-    password: '',
-    repeatedPassword:'',
-    latitude: '',
-    longitude:'',
-    roleId: ''
-  }
-
   roles: Role[] | undefined;
 
   selectedRole: Role | undefined;
-  constructor(roleService: RoleService, private userService: UserService, private router: Router, private renderer: Renderer2){
+  constructor(roleService: RoleService, private userService: UserService, private router: Router, private renderer: Renderer2,
+    private fb: FormBuilder,  private messageService: MessageService
+  ){
     roleService.getRoles().subscribe({
       next: (res: any) => {
         this.roles = res
@@ -59,17 +55,37 @@ export class RegisterComponent implements OnInit{
   register(){
     if(this.selectedRole)
      {
-      this.user.roleId = this.selectedRole.id;
-      this.userService.register(this.user).subscribe({
-        next: (res) => {
+      const formValue = this.registerForm.value;
+      formValue.roleId = this.selectedRole.id;
+
+       if (formValue.password !== formValue.repeatedPassword) {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Las contraseñas no coinciden', life: 3000 });
+        return;
+      }
+
+      this.userService.register(formValue).subscribe({
+        next: () => {
+          this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro exitoso', life: 3000 });
           this.router.navigate(['/login']);
         },
-        error: (err) => {console.log(err)}
-      })
+        error: (err) => {
+          console.log(err);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al registrar el usuario', life: 3000 });
+        }
+      });
      }
   }
 
   ngOnInit(): void {
+    this.registerForm = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
+      repeatedPassword: ['', Validators.required],
+      role: [null, Validators.required],
+      latitude: [''],
+      longitude: ['']
+    });
   }
 
   showMap(): void {
@@ -130,8 +146,11 @@ export class RegisterComponent implements OnInit{
         animation: google.maps.Animation.DROP
       });
           // Obtener latitud y longitud del marcador
-        this.user.latitude = this.marker.getPosition()?.lat();
-        this.user.longitude = this.marker.getPosition()?.lng();
+          this.registerForm.patchValue({
+            latitude:  this.marker.getPosition()?.lat(),
+            longitude:this.marker.getPosition()?.lng()
+          });
+
     });
   }
   
@@ -162,8 +181,10 @@ export class RegisterComponent implements OnInit{
       });
   
       // Obtener latitud y longitud del marcador
-      this.user.latitude = this.marker.getPosition()?.lat();
-      this.user.longitude = this.marker.getPosition()?.lng();
+      this.registerForm.patchValue({
+        latitude:  this.marker.getPosition()?.lat(),
+        longitude:this.marker.getPosition()?.lng()
+      });
     });
   
     // Inicialmente cargar el mapa con un marcador en la posición dada
@@ -175,7 +196,9 @@ export class RegisterComponent implements OnInit{
     });
   
     // Obtener latitud y longitud del marcador inicial
-    this.user.latitude = this.marker.getPosition()?.lat();
-    this.user.longitude = this.marker.getPosition()?.lng();
+    this.registerForm.patchValue({
+      latitude:  this.marker.getPosition()?.lat(),
+      longitude:this.marker.getPosition()?.lng()
+    });
   }
 }

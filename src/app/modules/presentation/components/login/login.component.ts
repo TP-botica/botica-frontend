@@ -2,27 +2,36 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../../service/user.service';
 import { UserLogin } from '../../../../domain/user-login';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
+  providers: [MessageService]
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit{
+  loginForm!: FormGroup;
 
-  user: UserLogin = {
-    email:'',
-    password: ''
+  constructor(private userService: UserService,private router: Router,
+    private messageService: MessageService, private fb: FormBuilder
+  ){
+
   }
 
-  constructor(private userService: UserService,private router: Router,){
-
+  ngOnInit() {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
+    });
   }
 
   login(){
-    this.userService.authorize(this.user).subscribe(
+    this.userService.authorize(this.loginForm.value).subscribe(
       {
         next: (res:any) => {
+          this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Login exitoso', life: 3000 });
           localStorage.setItem('token', res.jwt)
           this.userService.validateRole(res.jwt).subscribe(
             {
@@ -35,12 +44,14 @@ export class LoginComponent {
             }
           )
         },
-        error: (err) => console.log(err)
+        error: () => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Datos incorrectos', life: 3000 })
+        }
       }
     );
   }
 
   isValid(){
-    return !this.user.email && !this.user.password;
+    return this.loginForm.invalid;
   }
 }

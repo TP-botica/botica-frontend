@@ -1,41 +1,84 @@
 <section class="register pt-3 pb-3">
+    <p-toast />
     <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6 login-card">
         <div class="text-center mb-5">
             <div class="text-900 text-3xl font-medium mb-3">Regístrate</div>
             <span class="text-600 font-medium line-height-3">Ya tienes una cuenta?</span>
             <a routerLink="/login" class="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Login</a>
         </div>
+        <form [formGroup]="registerForm" (ngSubmit)="register()">
+            <div>
+                <div class="input-container">
+                    <label for="name" class="block text-900 font-medium mb-2">Nombre</label>
+                    <input formControlName="name" id="name" type="text" placeholder="Nombre" pInputText class="w-full" autocomplete="given-name">
+                    @if(registerForm.get('name')?.invalid && (registerForm.get('name')?.dirty || registerForm.get('name')?.touched)){
+                        @if(registerForm.get('name')?.errors?.['required']){
+                            <small class="p-error">El nombre es obligatorio.</small>
+                        }
+                    }
+                </div>
+                <div class="input-container">
+                    <label for="email" class="block text-900 font-medium mb-2">Correo</label>
+                    <input formControlName="email" id="email" type="email" placeholder="Correo electrónico" pInputText class="w-full" autocomplete="off">
+                    @if(registerForm.get('email')?.invalid && (registerForm.get('email')?.dirty || registerForm.get('email')?.touched)){
+                        @if(registerForm.get('email')?.errors?.['required']){
+                            <small class="p-error">El correo es obligatorio.</small>
+                        }
+                        @if(registerForm.get('email')?.errors?.['email']){
+                            <small class="p-error">Formato de correo inválido.</small>
+
+                        }
+                    }
+                </div>
+                <div class="input-container">
+                    <label for="password" class="block text-900 font-medium mb-2">Contraseña</label>
+                    <input formControlName="password" id="password" type="password" placeholder="Contraseña" pInputText class="w-full">
+                    @if(registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched)){
+                        @if(registerForm.get('password')?.errors?.['required']){
+                            <small class="p-error">La contraseña es obligatoria.</small>
+        
+                        }
+                    }
+                </div>
+                <div class="input-container">
+                    <label for="repeatedPassword" class="block text-900 font-medium mb-2">Repite tu contraseña</label>
+                    <input formControlName="repeatedPassword" id="repeatedPassword" type="password" placeholder="Repite tu contraseña" pInputText class="w-full">
+                    @if(registerForm.get('repeatedPassword')?.invalid && (registerForm.get('repeatedPassword')?.dirty || registerForm.get('repeatedPassword')?.touched)){
+                        @if(registerForm.get('repeatedPassword')?.errors?.['required']){
+                            <small class="p-error">La contraseña es obligatoria.</small>
+        
+                        }
+                    }
+                </div>
+                <label class="block text-900 font-medium">Selecciona tu rol</label>
+                <p-dropdown 
+                formControlName="role"
+                id="role"
+                class="role-selector"
+                [options]="roles" 
+                (onChange)="changeShowValue()"
+                [(ngModel)]="selectedRole" 
+                optionLabel="name"
+                placeholder="Selecciona un rol" />
+                @if(registerForm.get('role')?.invalid && (registerForm.get('role')?.dirty || registerForm.get('role')?.touched)){
+                    @if(registerForm.get('role')?.errors?.['required']){
+                        <small class="p-error">El rol es obligatorio.</small>
     
-        <div>
-            <label for="name" class="block text-900 font-medium mb-2">Nombre</label>
-            <input [(ngModel)]="user.name" id="name" type="text" placeholder="Nombre" pInputText class="w-full mb-3" autocomplete="given-name">
-            <label for="email" class="block text-900 font-medium mb-2">Correo</label>
-            <input [(ngModel)]="user.email" id="email" type="email" placeholder="Correo electrónico" pInputText class="w-full mb-3" autocomplete="off">
-            <label for="password" class="block text-900 font-medium mb-2">Contraseña</label>
-            <input [(ngModel)]="user.password" id="password" type="password" placeholder="Contraseña" pInputText class="w-full mb-3">
-            <label for="repeatedPassword" class="block text-900 font-medium mb-2">Repite tu contraseña</label>
-            <input [(ngModel)]="user.repeatedPassword" id="repeatedPassword" type="password" placeholder="Repite tu contraseña" pInputText class="w-full mb-3">
-            <label class="block text-900 font-medium mb-2">Selecciona tu rol</label>
-            <p-dropdown 
-            id="role"
-            class="role-selector"
-            [options]="roles" 
-            (onChange)="changeShowValue()"
-            [(ngModel)]="selectedRole" 
-            optionLabel="name"
-            placeholder="Selecciona un rol" />
-            @if (selectedRole?.name =='Botica') {
-                <label class="block text-900 font-medium" style="
-                    margin-top: 1rem; margin-bottom:.5rem">Selecciona la ubicación del establecimiento</label>
-                <section class="form">
-                    <form [formGroup]="formMaps">
-                    <input type="text" #inputPlaces id="inputPlaces" formControlName="busqueda" placeholder="Búsqueda" pInputText class="w-full mb-3">
-                    <div class="map" #divMap></div>
-                    </form>
-                </section>   
-            }
-            <button pButton pRipple label="Registrar" icon="pi pi-user" class="w-full mt-5" (click)="register()"></button>
-        </div>
+                    }
+                }
+                @if (selectedRole?.name =='Botica') {
+                    <label class="block text-900 font-medium" style="
+                        margin-top: 1rem; margin-bottom:.5rem">Selecciona la ubicación del establecimiento</label>
+                    <section class="form">
+                        <form [formGroup]="formMaps">
+                        <input type="text" #inputPlaces id="inputPlaces" formControlName="busqueda" placeholder="Búsqueda" pInputText class="w-full mb-3">
+                        <div class="map" #divMap></div>
+                        </form>
+                    </section>   
+                }
+                <button pButton pRipple label="Registrar" icon="pi pi-user" class="w-full mt-5" type="submit" [disabled]="registerForm.invalid"></button>
+            </div>
+        </form>
     </div>
 </section>
 
