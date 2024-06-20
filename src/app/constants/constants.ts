@@ -1,1 +1,1 @@
-export const myUrl: string = 'http://34.229.183.82';
+export const myUrl: string = 'http://54.210.120.47';
