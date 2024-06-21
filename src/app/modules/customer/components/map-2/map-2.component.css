@@ -19,6 +19,10 @@ h3{
     margin: 0 0 1rem 0;
 }
 
+.map-container{
+    width: 800px;
+}
+
 .card{
     width: 400px;
 }
