@@ -1,9 +1,7 @@
-///<reference path="../../../../../../node_modules/@types/googlemaps/index.d.ts"/>
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Role } from '../../../../domain/role';
 import { RoleService } from '../../../../service/role.service';
-import { UserRegister } from '../../../../domain/user-register';
 import { UserService } from '../../../../service/user.service';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
@@ -12,68 +10,39 @@ import { MessageService } from 'primeng/api';
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
-  providers: [MessageService]
+  providers: [MessageService],
 
 })
-export class RegisterComponent implements OnInit{
-  
-  @ViewChild('divMap') divMap!: ElementRef;
-  @ViewChild('inputPlaces') inputPlaces!: ElementRef;
-  registerForm!: FormGroup;
+export class RegisterComponent implements OnInit {
 
-  mapa!: google.maps.Map;
-  markers: google.maps.Marker[];
+  @ViewChild('inputPlaces') inputPlaces!: ElementRef;
+  @ViewChild('googleMap') googleMap!: any; 
+  registerForm!: FormGroup;
   formMaps!: FormGroup;
-  autocomplete!: google.maps.places.Autocomplete;
-  marker!: google.maps.Marker;
 
   roles: Role[] | undefined;
-
   selectedRole: Role | undefined;
-  constructor(roleService: RoleService, private userService: UserService, private router: Router, private renderer: Renderer2,
-    private fb: FormBuilder,  private messageService: MessageService
-  ){
-    roleService.getRoles().subscribe({
+
+  center: google.maps.LatLngLiteral = { lat: 24, lng: 12 };
+  zoom = 18;
+  markerOptions: google.maps.MarkerOptions = { draggable: true };
+  markerPosition: google.maps.LatLngLiteral = this.center;
+
+  constructor(
+    private roleService: RoleService,
+    private userService: UserService,
+    private router: Router,
+    private fb: FormBuilder,
+    private messageService: MessageService  ) {
+    this.roleService.getRoles().subscribe({
       next: (res: any) => {
-        this.roles = res
+        this.roles = res;
       }
-    })
-    this.markers = [];
+    });
 
-    this.formMaps = new FormGroup({
-
-      busqueda: new FormControl(''),
-    })
-  }
-
-  changeShowValue(){
-    if(this.selectedRole?.name == 'Botica'){
-      this.showMap()
-    }
-  }
-
-  register(){
-    if(this.selectedRole)
-     {
-      const formValue = this.registerForm.value;
-      formValue.roleId = this.selectedRole.id;
-
-       if (formValue.password !== formValue.repeatedPassword) {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Las contraseñas no coinciden', life: 3000 });
-        return;
-      }
-
-      this.userService.register(formValue).subscribe({
-        next: () => {
-          this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro exitoso', life: 3000 });
-          this.router.navigate(['/login']);
-        },
-        error: (err) => {
-          console.log(err);
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al registrar el usuario', life: 3000 });
-        }
-      });
-     }
+    this.formMaps = this.fb.group({
+      busqueda: ['']
+    });
   }
 
   ngOnInit(): void {
@@ -88,117 +57,107 @@ export class RegisterComponent implements OnInit{
     });
   }
 
-  showMap(): void {
+  changeShowValue() {
+    if (this.selectedRole?.name === 'Botica') {
+      setTimeout(() => {
+        this.initializeAutocomplete();
+      }, 1);
+      this.setCurrentLocation();
+    }
+  }
 
-    const opciones = {
-      enableHighAccuracy: true,
-      timeout: 5000,
-      maximumAge: 0
+  register() {
+    if (!this.selectedRole) {
+      return;
     }
 
-    if (navigator.geolocation) {
+    const formValue = this.registerForm.value;
+    formValue.roleId = this.selectedRole.id;
 
-      navigator.geolocation.getCurrentPosition(async (position) => {
-
-        await this.loadMap(position);
-        this.loadAutocomplete();
-
-      }, null, opciones);
-
-
-    } else {
-      console.log("navegador no compatible")
+    if (formValue.password !== formValue.repeatedPassword) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Las contraseñas no coinciden', life: 3000 });
+      return;
     }
 
-  };
-
-
-
-  private loadAutocomplete() {
-    this.autocomplete = new google.maps.places.Autocomplete(
-      this.renderer.selectRootElement(this.inputPlaces.nativeElement),
-      {
-        componentRestrictions: {
-          country: ["PE"]
-        },
-        fields: ["address_components", "geometry", "place_id"]
+    this.userService.register(formValue).subscribe({
+      next: () => {
+        this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro exitoso', life: 3000 });
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        console.log(err);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al registrar el usuario', life: 3000 });
       }
-    );
-  
-    google.maps.event.addListener(this.autocomplete, 'place_changed', () => {
-      const place: google.maps.places.PlaceResult = this.autocomplete.getPlace();
-  
+    });
+  }
+
+  setCurrentLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        this.center = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        this.markerPosition = this.center;
+        this.registerForm.patchValue({
+          latitude: this.center.lat,
+          longitude: this.center.lng
+        });
+      });
+    }
+  }
+
+  initializeAutocomplete() {
+    if (!this.inputPlaces || !this.inputPlaces.nativeElement) {
+      console.error('Elemento inputPlaces no está disponible.');
+      return;
+    }
+
+    const autocomplete = new google.maps.places.Autocomplete(this.inputPlaces.nativeElement, {
+      componentRestrictions: {
+        country: ["PE"] // Ajusta el país según tus necesidades
+      },
+      fields: ["geometry", "place_id"]
+    });
+
+    autocomplete.addListener('place_changed', () => {
+      const place = autocomplete.getPlace();  
       if (!place.geometry || !place.geometry.location) {
-        console.log("Lugar no válido.");
+        console.error("El lugar seleccionado no tiene una ubicación válida.");
         return;
       }
   
-      this.mapa.panTo(place.geometry.location);
-  
-      if (this.marker) {
-        this.marker.setMap(null);
-      }
-  
-      this.marker = new google.maps.Marker({
-        position: place.geometry.location,
-        map: this.mapa,
-        title: place.name,
-        animation: google.maps.Animation.DROP
-      });
-          // Obtener latitud y longitud del marcador
-          this.registerForm.patchValue({
-            latitude:  this.marker.getPosition()?.lat(),
-            longitude:this.marker.getPosition()?.lng()
-          });
-
-    });
-  }
-  
-  private loadMap(position: any): any {
-    const opciones = {
-      center: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
-      zoom: 17,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-  
-    this.mapa = new google.maps.Map(this.renderer.selectRootElement(this.divMap.nativeElement), opciones);
-  
-    // Agregar evento click al mapa
-    google.maps.event.addListener(this.mapa, 'click', (evento: google.maps.MapMouseEvent) => {
-      // Animación suave al centrar el mapa
-      this.mapa.panTo(evento.latLng);
-  
-      // Eliminar el marcador existente si lo hay
-      if (this.marker) {
-        this.marker.setMap(null);
-      }
-  
-      // Crear un nuevo marcador en la ubicación clickeada
-      this.marker = new google.maps.Marker({
-        position: evento.latLng,
-        map: this.mapa,
-        animation: google.maps.Animation.DROP
-      });
-  
-      // Obtener latitud y longitud del marcador
+      this.center = {
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng()
+      };
+      this.markerPosition = this.center;
       this.registerForm.patchValue({
-        latitude:  this.marker.getPosition()?.lat(),
-        longitude:this.marker.getPosition()?.lng()
+        latitude: this.center.lat,
+        longitude: this.center.lng
       });
-    });
+      });
+  }
+
+
   
-    // Inicialmente cargar el mapa con un marcador en la posición dada
-    this.marker = new google.maps.Marker({
-      position: opciones.center,
-      map: this.mapa,
-      title: "David",
-      animation: google.maps.Animation.DROP
-    });
-  
-    // Obtener latitud y longitud del marcador inicial
-    this.registerForm.patchValue({
-      latitude:  this.marker.getPosition()?.lat(),
-      longitude:this.marker.getPosition()?.lng()
-    });
+  moveMarker(event: google.maps.MapMouseEvent) {
+    if (event.latLng) {
+      this.markerPosition = event.latLng.toJSON();
+      this.registerForm.patchValue({
+        latitude: this.markerPosition.lat,
+        longitude: this.markerPosition.lng
+      });
+    }
+  }
+
+  updateMarkerPosition(event: any) {
+    if (event.latLng) {
+      this.markerPosition = event.latLng.toJSON();
+      this.registerForm.patchValue({
+        latitude: this.markerPosition.lat,
+        longitude: this.markerPosition.lng
+      });
+    }
   }
 }

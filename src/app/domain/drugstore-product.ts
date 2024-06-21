@@ -13,8 +13,8 @@ export interface DrugstoreProductEditable {
 export interface DrugstoreLocation {
     drugstoreId: string;
     name: string;
-    latitude: string;
-    longitude: string;
+    latitude: any;
+    longitude: any;
   }
 
 export interface DrugstoreProductView{

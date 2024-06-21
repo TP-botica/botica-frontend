@@ -4,6 +4,10 @@
     border-radius: 6px;
 }
 
+.map-container{
+    width: 800px;
+}
+
 .search-map{
     display: flex;
     flex-wrap: wrap;

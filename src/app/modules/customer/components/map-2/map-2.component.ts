@@ -1,5 +1,3 @@
-///<reference path="../../../../../../node_modules/@types/googlemaps/index.d.ts"/>
-
 import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { DrugstoreLocation } from '../../../../domain/drugstore-product';
 import { ServiceInfo } from '../../../../domain/service';
@@ -16,8 +14,8 @@ import { ServiceService } from '../../../../service/service.service';
 export class Map2Component {
   @ViewChild('divMap') divMap!: ElementRef;
 
-  mapa!: google.maps.Map;
-  markers: google.maps.Marker[];
+  //mapa!: google.maps.Map;
+  //markers: google.maps.Marker[];
   positions: DrugstoreLocation[] =[];
   service!: ServiceInfo;
   serviceDetail!: DrugstoreServiceView;
@@ -31,7 +29,7 @@ export class Map2Component {
 
     this.drugstoreServiceService.getDrugstoreLocations(serviceId).subscribe({
       next: (res) => {this.positions = res
-        this.showMap();
+        //this.showMap();
       }
     })
 
@@ -41,10 +39,10 @@ export class Map2Component {
       }
     })
 
-    this.markers = [];
+    //this.markers = [];
   }
 
-  showMap(): void {
+  /*showMap(): void {
     const opciones = {
       enableHighAccuracy: true,
       timeout: 5000,
@@ -105,5 +103,5 @@ export class Map2Component {
 
       this.markers.push(marker);
     });
-  }
+  }*/
 }
