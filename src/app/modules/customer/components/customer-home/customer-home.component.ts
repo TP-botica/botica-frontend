@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrl: './customer-home.component.css'
 })
 export class CustomerHomeComponent {
-
+  name = localStorage.getItem('name')
 }

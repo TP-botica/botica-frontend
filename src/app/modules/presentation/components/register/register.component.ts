@@ -93,17 +93,25 @@ export class RegisterComponent implements OnInit {
 
   setCurrentLocation() {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.center = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-        this.markerPosition = this.center;
-        this.registerForm.patchValue({
-          latitude: this.center.lat,
-          longitude: this.center.lng
-        });
-      });
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.center = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          this.markerPosition = this.center;
+          this.registerForm.patchValue({
+            latitude: this.center.lat,
+            longitude: this.center.lng
+          });
+        },
+        (error) => {
+          console.error('Error getting location', error);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo obtener la ubicación', life: 3000 });
+        }
+      );
+    } else {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'La geolocalización no está soportada por este navegador', life: 3000 });
     }
   }
 

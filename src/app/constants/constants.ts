@@ -1,1 +1,1 @@
-export const myUrl: string = 'http://54.210.120.47';
+export const myUrl: string = 'https://api.medifinderperu.com';

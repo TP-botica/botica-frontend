@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrl: './drugstore-home.component.css'
 })
 export class DrugstoreHomeComponent {
+  name = localStorage.getItem('name')
 
 }
