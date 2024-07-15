@@ -14,14 +14,17 @@ export class UserService {
   constructor( private http : HttpClient) {
    }
 
+   //all
    register(user: UserRegister){
     return this.http.post(`${this.url}/register`, user);
    }
 
+   //all
    authorize(userLogin: UserLogin){
     return this.http.post(`${this.url}/auth`, userLogin);
    }
 
+   //all
    validateRole(token: string){
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',

@@ -15,10 +15,12 @@ export class PurchaseService {
     .append('Authorization', 'Bearer ' + localStorage.getItem('token'));
   }
 
+  //drugstores
   getMySales(id:any) {
     return this.http.get<Purchase[]>(`${this.url}/allMySales/${id}`, { headers: this.headers });
   }
 
+  //customer
   getMyPurchases(id:any) {
     return this.http.get<Purchase[]>(`${this.url}/allMyPurchases/${id}`, { headers: this.headers });
   }

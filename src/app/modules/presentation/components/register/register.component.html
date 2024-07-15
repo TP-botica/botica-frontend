@@ -57,7 +57,6 @@
                 class="role-selector"
                 [options]="roles" 
                 (onChange)="changeShowValue()"
-                [(ngModel)]="selectedRole" 
                 optionLabel="name"
                 placeholder="Selecciona un rol" />
                 @if(registerForm.get('role')?.invalid && (registerForm.get('role')?.dirty || registerForm.get('role')?.touched)){
@@ -66,7 +65,7 @@
     
                     }
                 }
-                @if (selectedRole?.name =='Botica') {
+                @if (this.registerForm.get('role')?.value?.name =='Botica') {
                     <label class="block text-900 font-medium" style="
                         margin-top: 1rem; margin-bottom:.5rem">Selecciona la ubicación del establecimiento</label>
                     <section class="form">
@@ -82,7 +81,6 @@
                         <map-marker
                           [position]="markerPosition"
                           [options]="markerOptions"
-                          (mapClick)="moveMarker($event)"
                           (dragEnd)="updateMarkerPosition($event)">
                         </map-marker>
                       </google-map>

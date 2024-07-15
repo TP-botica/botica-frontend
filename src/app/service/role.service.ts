@@ -9,6 +9,7 @@ export class RoleService {
   url = `${myUrl}/role`
   constructor(private http : HttpClient) { }
 
+  //all
   getRoles(){
     return this.http.get(`${this.url}/getList`);
   }

@@ -15,10 +15,13 @@ export class CategoryService {
     .append('Content-Type', 'application/json')
     .append('Authorization', 'Bearer ' + localStorage.getItem('token'));
   }
+
+  //customer
   getCategoryServiceOptions() {
     return this.http.get<Option[]>(`${this.url}/all/serviceOptions`, { headers: this.headers });
   }
 
+  //customer
   getCategoryProductOptions() {
     return this.http.get<Option[]>(`${this.url}/all/productOptions`, { headers: this.headers });
   }

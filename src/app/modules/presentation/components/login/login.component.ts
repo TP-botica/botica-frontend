@@ -36,9 +36,9 @@ export class LoginComponent implements OnInit{
           this.userService.validateRole(res.jwt).subscribe(
             {
               next: (res:any) => {
-                if(res.roleEnum == 'ROLE_CUSTOMER')
+                if(res.role == 'ROLE_CUSTOMER')
                   this.router.navigate(['/customer']);
-                if(res.roleEnum == 'ROLE_DRUGSTORE')
+                if(res.role == 'ROLE_DRUGSTORE')
                   this.router.navigate(['/drugstore']);
               }
             }

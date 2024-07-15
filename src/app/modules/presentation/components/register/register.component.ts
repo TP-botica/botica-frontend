@@ -1,5 +1,5 @@
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Role } from '../../../../domain/role';
 import { RoleService } from '../../../../service/role.service';
 import { UserService } from '../../../../service/user.service';
@@ -21,8 +21,6 @@ export class RegisterComponent implements OnInit {
   formMaps!: FormGroup;
 
   roles: Role[] | undefined;
-  selectedRole: Role | undefined;
-
   center: google.maps.LatLngLiteral = { lat: 24, lng: 12 };
   zoom = 18;
   markerOptions: google.maps.MarkerOptions = { draggable: true };
@@ -58,21 +56,18 @@ export class RegisterComponent implements OnInit {
   }
 
   changeShowValue() {
-    if (this.selectedRole?.name === 'Botica') {
-      setTimeout(() => {
-        this.initializeAutocomplete();
-      }, 1);
+    if (this.registerForm.get('role')?.value.name === 'Botica') {
       this.setCurrentLocation();
     }
   }
 
   register() {
-    if (!this.selectedRole) {
+    if (!this.registerForm.get('role')?.value) {
       return;
     }
 
     const formValue = this.registerForm.value;
-    formValue.roleId = this.selectedRole.id;
+    formValue.roleId = this.registerForm.get('role')?.value.id;
 
     if (formValue.password !== formValue.repeatedPassword) {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Las contraseñas no coinciden', life: 3000 });
@@ -93,17 +88,14 @@ export class RegisterComponent implements OnInit {
 
   setCurrentLocation() {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
+      navigator.geolocation.getCurrentPosition(async (position) => {
           this.center = {
             lat: position.coords.latitude,
             lng: position.coords.longitude
           };
           this.markerPosition = this.center;
-          this.registerForm.patchValue({
-            latitude: this.center.lat,
-            longitude: this.center.lng
-          });
+          await this.updateValue(this.center);
+          this.initializeAutocomplete()
         },
         (error) => {
           console.error('Error getting location', error);
@@ -115,6 +107,13 @@ export class RegisterComponent implements OnInit {
     }
   }
 
+  updateValue(center: any){
+    this.registerForm.patchValue({
+      latitude: center.lat,
+      longitude: center.lng
+    });
+  }
+
   initializeAutocomplete() {
     if (!this.inputPlaces || !this.inputPlaces.nativeElement) {
       console.error('Elemento inputPlaces no está disponible.');
@@ -123,7 +122,7 @@ export class RegisterComponent implements OnInit {
 
     const autocomplete = new google.maps.places.Autocomplete(this.inputPlaces.nativeElement, {
       componentRestrictions: {
-        country: ["PE"] // Ajusta el país según tus necesidades
+        country: ["PE"] 
       },
       fields: ["geometry", "place_id"]
     });
@@ -140,10 +139,7 @@ export class RegisterComponent implements OnInit {
         lng: place.geometry.location.lng()
       };
       this.markerPosition = this.center;
-      this.registerForm.patchValue({
-        latitude: this.center.lat,
-        longitude: this.center.lng
-      });
+      this.updateValue(this.center);
       });
   }
 
@@ -152,20 +148,14 @@ export class RegisterComponent implements OnInit {
   moveMarker(event: google.maps.MapMouseEvent) {
     if (event.latLng) {
       this.markerPosition = event.latLng.toJSON();
-      this.registerForm.patchValue({
-        latitude: this.markerPosition.lat,
-        longitude: this.markerPosition.lng
-      });
+      this.updateValue(this.markerPosition);
     }
   }
 
   updateMarkerPosition(event: any) {
     if (event.latLng) {
       this.markerPosition = event.latLng.toJSON();
-      this.registerForm.patchValue({
-        latitude: this.markerPosition.lat,
-        longitude: this.markerPosition.lng
-      });
+      this.updateValue(this.markerPosition);
     }
   }
 }

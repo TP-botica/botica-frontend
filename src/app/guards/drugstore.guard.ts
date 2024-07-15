@@ -14,7 +14,7 @@ export const drugstoreGuard: CanActivateFn = (route, state) => {
   if (token) {
     return userService.validateRole(token).pipe(
       map((res: any) => {
-        if (res.roleEnum === 'ROLE_DRUGSTORE') {
+        if (res.role === 'ROLE_DRUGSTORE') {
           localStorage.setItem('profileId', res.id);
           localStorage.setItem('name', res.name);
 

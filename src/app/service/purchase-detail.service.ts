@@ -15,6 +15,7 @@ export class PurchaseDetailService {
     .append('Authorization', 'Bearer ' + localStorage.getItem('token'));
   }
 
+  //customer and drugstore
   getPurchaseDetails(id:any) {
     return this.http.get<PurchaseDetail[]>(`${this.url}/allByPurchase/${id}`, { headers: this.headers });
   }

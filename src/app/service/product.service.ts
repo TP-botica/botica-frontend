@@ -16,18 +16,27 @@ export class ProductService {
       .append('Authorization', 'Bearer ' + localStorage.getItem('token'));
     }
 
+    //customer
     getProductById(productId: any) {
       return this.http.get<ProductInfo>(`${this.url}/searchById/${productId}`, { headers: this.headers });
     }
+
+    //customer
     getProducts() {
         return this.http.get<ProductServiceView[]>(`${this.url}/all`, { headers: this.headers });
     }
+
+    //drugstore
     getMyProducts(id:any) {
         return this.http.get<Product[]>(`${this.url}/allMyProducts/${id}`, { headers: this.headers });
     }
+
+    //customer
     getProductsByCategory(id:any) {
       return this.http.get<ProductServiceView[]>(`${this.url}/allByCategory/${id}`, { headers: this.headers });
   }
+
+  //drugstore
     getProductOptions() {
       return this.http.get<Option[]>(`${this.url}/all/options`, { headers: this.headers });
   }

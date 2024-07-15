@@ -16,22 +16,27 @@ export class DrugstoreProductService {
     .append('Authorization', 'Bearer ' + localStorage.getItem('token'));
   }
 
+  //customer
   getDetailsById(drugstoreId: any, productId: any){
     return this.http.get<DrugstoreProductView>(`${this.url}/searchById/${drugstoreId}/${productId}`, { headers: this.headers })
   }
 
+  //drugstore
   addDrugstoreProduct(drugstoreProduct: DrugstoreProduct){
     return this.http.post(`${this.url}/register`, drugstoreProduct, { headers: this.headers } );
    }
 
+  //drugstore
    updateDrugstoreProduct(drugstoreId: any, productId:string, drugstoreProduct: DrugstoreProduct){
     return this.http.put(`${this.url}/edit/${drugstoreId}/${productId}`, drugstoreProduct, { headers: this.headers } );
    }
 
+  //drugstore
    deleteDrugstoreProduct(drugstoreId: any, productId:any){
     return this.http.delete(`${this.url}/deleteById/${drugstoreId}/${productId}`, { headers: this.headers })
    }
 
+   //customer
    getDrugstoreLocations(productId: any){
     return this.http.get<DrugstoreLocation[]>(`${this.url}/locations/${productId}`, { headers: this.headers })
    }
