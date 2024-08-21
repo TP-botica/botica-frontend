@@ -8,6 +8,7 @@ import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.
 import { SuccessfulPurchaseComponent } from './components/successful-purchase/successful-purchase.component';
 import { MapComponent } from './components/map/map.component';
 import { Map2Component } from './components/map-2/map-2.component';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 
 const routes: Routes = [
   {path: '', component: CustomerHomeComponent},
@@ -18,6 +19,7 @@ const routes: Routes = [
   {path: 'search-product', component:SearchProductComponent},
   {path: 'shopping-cart', component:ShoppingCartComponent},
   {path: 'succesful-purchase', component:SuccessfulPurchaseComponent},
+  {path: 'edit-profile', component:EditProfileComponent},
 ];
 
 @NgModule({

@@ -33,15 +33,19 @@ export class ProductComponent implements OnInit{
 
   constructor(private productService: ProductService, private messageService: MessageService,
      private confirmationService: ConfirmationService, private drugstoreProductService: DrugstoreProductService) {
-        productService.getProductOptions().subscribe({
-            next: (res: any) => {
-              this.productOptions = res
-            }
-          })
+      this.getProductOptions();
      }
 
   ngOnInit() {
     this.getProducts();
+  }
+
+  getProductOptions(){
+    this.productService.getProductOptions(localStorage.getItem('profileId')).subscribe({
+      next: (res: any) => {
+        this.productOptions = res
+      }
+    })
   }
 
   getProducts(){
@@ -77,7 +81,8 @@ export class ProductComponent implements OnInit{
           accept: () => {
               this.drugstoreProductService.deleteDrugstoreProduct(localStorage.getItem('profileId'),product.productId).subscribe({
                 next: ()=> {
-                    this.getProducts()
+                    this.getProductOptions();
+                    this.getProducts();
                     this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Producto Eliminado', life: 3000 });}
               })
           }
@@ -114,6 +119,7 @@ export class ProductComponent implements OnInit{
               }
             this.drugstoreProductService.addDrugstoreProduct(drugstoreProduct).subscribe({
                 next: () => { 
+                    this.getProductOptions();
                     this.getProducts();
                     this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Producto Creado', life: 3000 });},
                 error: () => {this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Producto ya registrado', life: 3000 })}

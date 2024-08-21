@@ -4,11 +4,13 @@ import { DrugstoreHomeComponent } from './components/drugstore-home/drugstore-ho
 import { ProductComponent } from './components/product/product.component';
 import { SaleComponent } from './components/sale/sale.component';
 import { ServiceComponent } from './components/service/service.component';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 
 const routes: Routes = [
   {path: '', component: DrugstoreHomeComponent},
   {path: 'product', component:ProductComponent},
   {path: 'service', component:ServiceComponent},
+  {path: 'edit-profile', component:EditProfileComponent},
   {path: 'sale', component:SaleComponent},
 ];
 

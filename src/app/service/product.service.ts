@@ -37,8 +37,8 @@ export class ProductService {
   }
 
   //drugstore
-    getProductOptions() {
-      return this.http.get<Option[]>(`${this.url}/all/options`, { headers: this.headers });
+    getProductOptions(id:any) {
+      return this.http.get<Option[]>(`${this.url}/all/options/${id}`, { headers: this.headers });
   }
 
 }

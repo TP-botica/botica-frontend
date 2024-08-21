@@ -35,15 +35,19 @@ export class ServiceComponent implements OnInit{
   
     constructor(private serviceService: ServiceService, private messageService: MessageService,
        private confirmationService: ConfirmationService, private drugstoreServiceService: DrugstoreServiceService) {
-          serviceService.getServiceOptions().subscribe({
-              next: (res: any) => {
-                this.serviceOptions = res
-              }
-            })
+        this.getServiceOptions();
        }
   
     ngOnInit() {
       this.getServices();
+    }
+
+    getServiceOptions(){
+      this.serviceService.getServiceOptions(localStorage.getItem('profileId')).subscribe({
+        next: (res: any) => {
+          this.serviceOptions = res
+        }
+      })
     }
   
     getServices(){
@@ -79,6 +83,7 @@ export class ServiceComponent implements OnInit{
             accept: () => {
                 this.drugstoreServiceService.deleteDrugstoreService(localStorage.getItem('profileId'),service.serviceId).subscribe({
                   next: ()=> {
+                      this.getServiceOptions();
                       this.getServices()
                       this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Servicio Eliminado', life: 3000 });}
                 })
@@ -114,6 +119,7 @@ export class ServiceComponent implements OnInit{
                 }
               this.drugstoreServiceService.addDrugstoreService(drugstoreService).subscribe({
                   next: () => { 
+                      this.getServiceOptions();
                       this.getServices();
                       this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Servicio Creado', life: 3000 });},
                   error: () => {this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Servicio ya registrado', life: 3000 })}

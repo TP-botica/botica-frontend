@@ -60,7 +60,7 @@
 </p-sidebar>
 <p-overlayPanel #op>
     <div class="flex flex-column gap-3 w-10rem">
-        <p-button class="button-option" label="Ver Perfil" icon="pi pi-user" [text]="true" severity="secondary" />
+        <p-button class="button-option" label="Ver Perfil" icon="pi pi-user" [text]="true" severity="secondary" routerLink="/customer/edit-profile"/>
         <p-button class="button-option" label="Salir" icon="pi pi-sign-out" [text]="true" severity="danger" (onClick)="logout()"/>
     </div>
 </p-overlayPanel>

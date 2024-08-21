@@ -14,7 +14,7 @@
 </div>
 <p-overlayPanel #op>
     <div class="flex flex-column gap-3 w-10rem">
-        <p-button label="Ver Perfil" icon="pi pi-user" [text]="true" severity="secondary" />
+        <p-button label="Ver Perfil" icon="pi pi-user" [text]="true" severity="secondary" routerLink="/drugstore/edit-profile"/>
         <p-button  label="Salir" icon="pi pi-sign-out" [text]="true" severity="danger" (onClick)="logout()"/>
     </div>
 </p-overlayPanel>

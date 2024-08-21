@@ -38,8 +38,8 @@ export class ServiceService {
   }
 
   //drugstore
-    getServiceOptions() {
-      return this.http.get<Option[]>(`${this.url}/all/options`, { headers: this.headers });
+    getServiceOptions(id:any) {
+      return this.http.get<Option[]>(`${this.url}/all/options/${id}`, { headers: this.headers });
   }
 
 }

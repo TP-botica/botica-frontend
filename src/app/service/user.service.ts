@@ -25,12 +25,12 @@ export class UserService {
    }
 
    //all
-   validateRole(token: string){
+   validateRole(token: any){
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + token
     });
-    return this.http.get(`${this.url}/profile`, { headers: headers });
+    return this.http.get<any>(`${this.url}/profile`, { headers: headers });
    }
 
 }

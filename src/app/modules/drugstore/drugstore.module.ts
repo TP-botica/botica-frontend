@@ -21,9 +21,10 @@ import { OrderListModule } from 'primeng/orderlist';
 import { SaleComponent } from './components/sale/sale.component';
 import { DrugstoreHomeComponent } from './components/drugstore-home/drugstore-home.component';
 import { ServiceComponent } from './components/service/service.component';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 
 @NgModule({
-  declarations: [ProductComponent, SaleComponent, DrugstoreHomeComponent, ServiceComponent],
+  declarations: [ProductComponent, SaleComponent, DrugstoreHomeComponent, ServiceComponent,EditProfileComponent],
   imports: [
     CommonModule,
     DrugstoreRoutingModule,
