@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { myUrl } from '../constants/constants';
 import { UserLogin } from '../domain/user-login';
 import { UserRegister } from '../domain/user-register';
+import { UserEdit } from '../domain/user-edit';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,13 @@ export class UserService {
 
   url = `${myUrl}/user`
 
+  headers = new HttpHeaders()
+
+
   constructor( private http : HttpClient) {
-   }
+    this.headers = new HttpHeaders()
+    .append('Content-Type', 'application/json')
+  }
 
    //all
    register(user: UserRegister){
@@ -25,12 +31,16 @@ export class UserService {
    }
 
    //all
-   validateRole(token: any){
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token
-    });
+   validateRole(){
+    const token = localStorage.getItem('token');
+    const headers = this.headers.set('Authorization', `Bearer ${token}`);
     return this.http.get<any>(`${this.url}/profile`, { headers: headers });
+   }
+
+   updateUser(id: any, user: UserEdit){
+    const token = localStorage.getItem('token');
+    const headers = this.headers.set('Authorization', `Bearer ${token}`);
+    return this.http.put(`${this.url}/edit/${id}`, user, { headers: headers } );
    }
 
 }

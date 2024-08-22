@@ -31,9 +31,9 @@ export class LoginComponent implements OnInit{
     this.userService.authorize(this.loginForm.value).subscribe(
       {
         next: (res:any) => {
-          this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Login exitoso', life: 3000 });
           localStorage.setItem('token', res.jwt)
-          this.userService.validateRole(res.jwt).subscribe(
+          this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Login exitoso', life: 3000 });
+          this.userService.validateRole().subscribe(
             {
               next: (res:any) => {
                 if(res.role == 'ROLE_CUSTOMER')

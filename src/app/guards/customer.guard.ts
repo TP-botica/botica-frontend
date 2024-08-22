@@ -11,7 +11,7 @@ export const customerGuard: CanActivateFn = (route, state) => {
   const urlTreeReturn = router.createUrlTree(['/login']);
 
   if (token) {
-    return userService.validateRole(token).pipe(
+    return userService.validateRole().pipe(
       map((res: any) => {
         if (res.role === 'ROLE_CUSTOMER') {
           localStorage.setItem('profileId', res.id);
