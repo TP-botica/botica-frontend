@@ -13,16 +13,19 @@ export class CategoryService {
   constructor(private http : HttpClient) { 
     this.headers = new HttpHeaders()
     .append('Content-Type', 'application/json')
-    .append('Authorization', 'Bearer ' + localStorage.getItem('token'));
   }
 
   //customer
   getCategoryServiceOptions() {
-    return this.http.get<Option[]>(`${this.url}/all/serviceOptions`, { headers: this.headers });
+    const token = localStorage.getItem('token');
+    const headers = this.headers.set('Authorization', `Bearer ${token}`);
+    return this.http.get<Option[]>(`${this.url}/all/serviceOptions`, { headers: headers });
   }
 
   //customer
   getCategoryProductOptions() {
-    return this.http.get<Option[]>(`${this.url}/all/productOptions`, { headers: this.headers });
+    const token = localStorage.getItem('token');
+    const headers = this.headers.set('Authorization', `Bearer ${token}`);
+    return this.http.get<Option[]>(`${this.url}/all/productOptions`, { headers: headers });
   }
 }

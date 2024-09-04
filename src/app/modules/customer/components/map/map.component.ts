@@ -97,9 +97,4 @@ export class MapComponent {
     this.shoppingCartService.addToCart(product);
 
   }
-
-  buyNow(){
-    this.addtoCart();
-    this.router.navigate(['/customer/shopping-cart'])
-  }
 }

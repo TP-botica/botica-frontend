@@ -13,32 +13,41 @@ export class DrugstoreProductService {
   constructor(private http : HttpClient) { 
     this.headers = new HttpHeaders()
     .append('Content-Type', 'application/json')
-    .append('Authorization', 'Bearer ' + localStorage.getItem('token'));
   }
 
   //customer
   getDetailsById(drugstoreId: any, productId: any){
-    return this.http.get<DrugstoreProductView>(`${this.url}/searchById/${drugstoreId}/${productId}`, { headers: this.headers })
+    const token = localStorage.getItem('token');
+    const headers = this.headers.set('Authorization', `Bearer ${token}`);
+    return this.http.get<DrugstoreProductView>(`${this.url}/searchById/${drugstoreId}/${productId}`, { headers: headers })
   }
 
   //drugstore
   addDrugstoreProduct(drugstoreProduct: DrugstoreProduct){
-    return this.http.post(`${this.url}/register`, drugstoreProduct, { headers: this.headers } );
+    const token = localStorage.getItem('token');
+    const headers = this.headers.set('Authorization', `Bearer ${token}`);
+    return this.http.post(`${this.url}/register`, drugstoreProduct, { headers: headers } );
    }
 
   //drugstore
    updateDrugstoreProduct(drugstoreId: any, productId:string, drugstoreProduct: DrugstoreProduct){
-    return this.http.put(`${this.url}/edit/${drugstoreId}/${productId}`, drugstoreProduct, { headers: this.headers } );
+    const token = localStorage.getItem('token');
+    const headers = this.headers.set('Authorization', `Bearer ${token}`);
+    return this.http.put(`${this.url}/edit/${drugstoreId}/${productId}`, drugstoreProduct, { headers: headers } );
    }
 
   //drugstore
    deleteDrugstoreProduct(drugstoreId: any, productId:any){
-    return this.http.delete(`${this.url}/deleteById/${drugstoreId}/${productId}`, { headers: this.headers })
+    const token = localStorage.getItem('token');
+    const headers = this.headers.set('Authorization', `Bearer ${token}`);
+    return this.http.delete(`${this.url}/deleteById/${drugstoreId}/${productId}`, { headers: headers })
    }
 
    //customer
    getDrugstoreLocations(productId: any){
-    return this.http.get<DrugstoreLocation[]>(`${this.url}/locations/${productId}`, { headers: this.headers })
+    const token = localStorage.getItem('token');
+    const headers = this.headers.set('Authorization', `Bearer ${token}`);
+    return this.http.get<DrugstoreLocation[]>(`${this.url}/locations/${productId}`, { headers: headers })
    }
   
 }

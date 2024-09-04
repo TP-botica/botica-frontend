@@ -12,11 +12,12 @@ export class PurchaseDetailService {
   constructor(private http:HttpClient) { 
     this.headers = new HttpHeaders()
     .append('Content-Type', 'application/json')
-    .append('Authorization', 'Bearer ' + localStorage.getItem('token'));
   }
 
   //customer and drugstore
   getPurchaseDetails(id:any) {
-    return this.http.get<PurchaseDetail[]>(`${this.url}/allByPurchase/${id}`, { headers: this.headers });
+    const token = localStorage.getItem('token');
+    const headers = this.headers.set('Authorization', `Bearer ${token}`);
+    return this.http.get<PurchaseDetail[]>(`${this.url}/allByPurchase/${id}`, { headers: headers });
   }
 }

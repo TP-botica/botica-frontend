@@ -12,21 +12,26 @@ export class PurchaseService {
   constructor(private http:HttpClient) { 
     this.headers = new HttpHeaders()
     .append('Content-Type', 'application/json')
-    .append('Authorization', 'Bearer ' + localStorage.getItem('token'));
   }
 
   //drugstores
   getMySales(id:any) {
-    return this.http.get<Purchase[]>(`${this.url}/allMySales/${id}`, { headers: this.headers });
+    const token = localStorage.getItem('token');
+    const headers = this.headers.set('Authorization', `Bearer ${token}`);
+    return this.http.get<Purchase[]>(`${this.url}/allMySales/${id}`, { headers: headers });
   }
 
   //customer
   getMyPurchases(id:any) {
-    return this.http.get<Purchase[]>(`${this.url}/allMyPurchases/${id}`, { headers: this.headers });
+    const token = localStorage.getItem('token');
+    const headers = this.headers.set('Authorization', `Bearer ${token}`);
+    return this.http.get<Purchase[]>(`${this.url}/allMyPurchases/${id}`, { headers: headers });
   }
 
   //customer
   registerPurchase(purchase: PurchaseRegister){
-    return this.http.post(`${this.url}/register`, purchase, { headers: this.headers } );
+    const token = localStorage.getItem('token');
+    const headers = this.headers.set('Authorization', `Bearer ${token}`);
+    return this.http.post(`${this.url}/register`, purchase, { headers: headers } );
   }
 }

@@ -13,32 +13,41 @@ export class ProductService {
     constructor(private http : HttpClient) { 
       this.headers = new HttpHeaders()
       .append('Content-Type', 'application/json')
-      .append('Authorization', 'Bearer ' + localStorage.getItem('token'));
     }
 
     //customer
     getProductById(productId: any) {
-      return this.http.get<ProductInfo>(`${this.url}/searchById/${productId}`, { headers: this.headers });
+      const token = localStorage.getItem('token');
+      const headers = this.headers.set('Authorization', `Bearer ${token}`);
+      return this.http.get<ProductInfo>(`${this.url}/searchById/${productId}`, { headers: headers });
     }
 
     //customer
     getProducts() {
-        return this.http.get<ProductServiceView[]>(`${this.url}/all`, { headers: this.headers });
+        const token = localStorage.getItem('token');
+        const headers = this.headers.set('Authorization', `Bearer ${token}`);
+        return this.http.get<ProductServiceView[]>(`${this.url}/all`, { headers: headers });
     }
 
     //drugstore
     getMyProducts(id:any) {
-        return this.http.get<Product[]>(`${this.url}/allMyProducts/${id}`, { headers: this.headers });
+        const token = localStorage.getItem('token');
+        const headers = this.headers.set('Authorization', `Bearer ${token}`);
+        return this.http.get<Product[]>(`${this.url}/allMyProducts/${id}`, { headers: headers });
     }
 
     //customer
     getProductsByCategory(id:any) {
-      return this.http.get<ProductServiceView[]>(`${this.url}/allByCategory/${id}`, { headers: this.headers });
+      const token = localStorage.getItem('token');
+      const headers = this.headers.set('Authorization', `Bearer ${token}`);
+      return this.http.get<ProductServiceView[]>(`${this.url}/allByCategory/${id}`, { headers: headers });
   }
 
   //drugstore
     getProductOptions(id:any) {
-      return this.http.get<Option[]>(`${this.url}/all/options/${id}`, { headers: this.headers });
+      const token = localStorage.getItem('token');
+      const headers = this.headers.set('Authorization', `Bearer ${token}`);
+      return this.http.get<Option[]>(`${this.url}/all/options/${id}`, { headers: headers });
   }
 
 }
