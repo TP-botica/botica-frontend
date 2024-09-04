@@ -12,3 +12,16 @@ export interface PurchaseDetail{
     discount: number;
 
 }
+
+export interface PurchaseRegister{
+    customerId: string;
+    drugstoreId: string;
+    purchaseDetails: Detail[]
+}
+
+export interface Detail{
+    productId: string;
+    quantity: number;
+    price: number;
+    discount: number;
+}

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { myUrl } from '../constants/constants';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Purchase } from '../domain/purchase';
+import { Purchase, PurchaseRegister } from '../domain/purchase';
 
 @Injectable({
   providedIn: 'root'
@@ -23,5 +23,10 @@ export class PurchaseService {
   //customer
   getMyPurchases(id:any) {
     return this.http.get<Purchase[]>(`${this.url}/allMyPurchases/${id}`, { headers: this.headers });
+  }
+
+  //customer
+  registerPurchase(purchase: PurchaseRegister){
+    return this.http.post(`${this.url}/register`, purchase, { headers: this.headers } );
   }
 }

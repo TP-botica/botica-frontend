@@ -1,11 +1,11 @@
 import { Component, ElementRef, Renderer2, ViewChild} from '@angular/core';
 import { DrugstoreLocation, DrugstoreProductView } from '../../../../domain/drugstore-product';
 import { DrugstoreProductService } from '../../../../service/drugstore-product.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../../../../service/product.service';
 import { ProductInfo, ProductShoppingCart } from '../../../../domain/product';
 import { ShoppingCartService } from '../../../../service/shopping-cart.service';
-import { GoogleMap, MapMarker } from '@angular/google-maps';
+import { GoogleMap } from '@angular/google-maps';
 
 
 @Component({
@@ -26,7 +26,7 @@ export class MapComponent {
 
   center: google.maps.LatLngLiteral = { lat: 24, lng: 12 };
   zoom = 15;
-  markerOptions: google.maps.MarkerOptions = { draggable: true };
+  markerOptions: google.maps.MarkerOptions = { draggable: false };
   markerOptions2!: google.maps.MarkerOptions
   markerPosition: google.maps.LatLngLiteral = this.center;
 
@@ -43,7 +43,7 @@ export class MapComponent {
   }
 
   constructor(private drugstoreProductService: DrugstoreProductService, private route: ActivatedRoute,
-    private productService: ProductService, private shoppingCartService: ShoppingCartService
+    private productService: ProductService, private shoppingCartService: ShoppingCartService, private router: Router
   ) {
     const productId = this.route.snapshot.paramMap.get('productId');
 
@@ -96,5 +96,10 @@ export class MapComponent {
     }
     this.shoppingCartService.addToCart(product);
 
+  }
+
+  buyNow(){
+    this.addtoCart();
+    this.router.navigate(['/customer/shopping-cart'])
   }
 }
