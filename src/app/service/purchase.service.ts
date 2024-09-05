@@ -29,7 +29,9 @@ export class PurchaseService {
   }
 
   //customer
-  registerPurchase(purchase: PurchaseRegister){
+  registerPurchase(purchase: any){
+    console.log(purchase)
+
     const token = localStorage.getItem('token');
     const headers = this.headers.set('Authorization', `Bearer ${token}`);
     return this.http.post(`${this.url}/register`, purchase, { headers: headers } );

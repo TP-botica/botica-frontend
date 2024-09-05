@@ -23,6 +23,7 @@ import { OrderListModule } from 'primeng/orderlist';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { CardModule } from 'primeng/card';
 import {GoogleMap,MapMarker} from '@angular/google-maps';
+import { InputMaskModule } from 'primeng/inputmask';
 
 
 import { CustomerRoutingModule } from './customer-routing.module';
@@ -39,7 +40,7 @@ import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.
   declarations: [CustomerHomeComponent, PurchaseComponent, SearchProductComponent, MapComponent, Map2Component, EditProfileComponent, ShoppingCartComponent],
   imports: [
     CommonModule,
-    CustomerRoutingModule,
+    CustomerRoutingModule, InputMaskModule,
     TableModule, ToolbarModule, ToastModule, ButtonModule, TagModule, RadioButtonModule, FormsModule, ConfirmDialogModule, 
     DropdownModule, DialogModule, InputTextModule, InputTextareaModule, InputNumberModule, SelectButtonModule, DataViewModule
     ,ReactiveFormsModule, AutoCompleteModule, FloatLabelModule, OrderListModule,ToggleButtonModule,CardModule, GoogleMap, MapMarker

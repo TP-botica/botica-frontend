@@ -39,7 +39,7 @@ export class ShoppingCartService {
 
   clearCart() {
     this.cart.next([]); 
-    localStorage.removeItem('cart'); 
+    localStorage.removeItem('shoppingCart'); 
   }
   
 }

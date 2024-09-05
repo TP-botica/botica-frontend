@@ -20,29 +20,60 @@
                 incrementButtonIcon="pi pi-plus" 
                 decrementButtonIcon="pi pi-minus"
                 (ngModelChange)="updateCart()"
-                min="1" />
+                min="1"
+                [max]="product.stock" />
                 <p>S/. {{product.price * product.quantity}}</p>
                 <p-button label="Eliminar" [text]="true" severity="danger" (onClick)="deleteProduct(product.id, product.drugstoreId)"/>
             </div>
         }
     </div>
     <div class="p-4 border-1 surface-border surface-card border-round summary">
-        <div>
-            <h3>Resumen de compra</h3>
-            <div class="info">
-                <p>Subtotal</p><p>S/. {{subtotal}}</p>
+        @if(isShoppingCartEmpty()){
+            <div>
+                <h3>Resumen de compra</h3>
+                <div class="info">
+                    <p>Subtotal</p><p>S/. {{subtotal}}</p>
+                </div>
             </div>
-        </div>
-        <div>
-            <div class="info">
-                <p>Total a pagar</p><p>S/. {{subtotal}}</p>
+            <div>
+                <div class="info">
+                    <p>Total a pagar</p><p>S/. {{subtotal}}</p>
+                </div>
+                <button
+                    (click)="showDialog()" 
+                    pButton 
+                    pRipple 
+                    label="Comprar" 
+                    class="p-button-success">
+                </button>
             </div>
-            <button 
-                pButton 
-                pRipple 
-                label="Comprar" 
-                class="p-button-success">
-            </button>
-        </div>
+        }
     </div>
 </section>
+
+<p-dialog header="Medifinder" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+    <div class="payment">
+            <div class="payment-field">
+                <label id="number" for="lastname">Número de tarjeta</label>
+                <p-inputMask inputId="number" mask="9999-9999-9999-9999" [(ngModel)]="cardNumber"></p-inputMask>
+            </div>
+            <div class="card-info">
+                <div class="payment-field">
+                    <label id="date" for="date">Válido hasta</label>
+                    <p-inputMask inputId="date" mask="99/99" [(ngModel)]="expiryDate"></p-inputMask>
+                </div>
+                <div class="payment-field">
+                    <label for="cvv">CVV</label>
+                    <p-inputMask id="cvv" mask="999" [(ngModel)]="cvv"></p-inputMask>
+                </div>
+            </div>
+        <button
+            (click)="buy()"
+            pButton 
+            pRipple 
+            label="Pagar" 
+            class="p-button-success"
+            [disabled]="!isFormValid()">
+        </button>
+    </div>
+</p-dialog>

@@ -9,6 +9,7 @@ import { SuccessfulPurchaseComponent } from './components/successful-purchase/su
 import { MapComponent } from './components/map/map.component';
 import { Map2Component } from './components/map-2/map-2.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import { PurchaseSuccessComponent } from './components/purchase-success/purchase-success.component';
 
 const routes: Routes = [
   {path: '', component: CustomerHomeComponent},
@@ -20,6 +21,7 @@ const routes: Routes = [
   {path: 'shopping-cart', component:ShoppingCartComponent},
   {path: 'succesful-purchase', component:SuccessfulPurchaseComponent},
   {path: 'edit-profile', component:EditProfileComponent},
+  {path: 'pruchase-success', component: PurchaseSuccessComponent}
 ];
 
 @NgModule({

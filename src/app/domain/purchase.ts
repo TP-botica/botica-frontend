@@ -14,8 +14,8 @@ export interface PurchaseDetail{
 }
 
 export interface PurchaseRegister{
-    customerId: string;
-    drugstoreId: string;
+    customerId: any;
+    drugstoreId: any;
     purchaseDetails: Detail[]
 }
 
