@@ -79,6 +79,7 @@ export class ServiceComponent implements OnInit{
         this.confirmationService.confirm({
             message: 'Seguro que quieres eliminar ' + service.name + '?',
             header: 'Confirmar',
+            acceptLabel: 'Sí',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
                 this.drugstoreServiceService.deleteDrugstoreService(localStorage.getItem('profileId'),service.serviceId).subscribe({

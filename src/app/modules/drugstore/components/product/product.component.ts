@@ -77,6 +77,7 @@ export class ProductComponent implements OnInit{
       this.confirmationService.confirm({
           message: 'Seguro que quieres eliminar ' + product.name + '?',
           header: 'Confirmar',
+          acceptLabel: 'Sí',
           icon: 'pi pi-exclamation-triangle',
           accept: () => {
               this.drugstoreProductService.deleteDrugstoreProduct(localStorage.getItem('profileId'),product.productId).subscribe({
