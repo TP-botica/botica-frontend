@@ -14,7 +14,7 @@ export class ShoppingCartService {
     return cart ? JSON.parse(cart) : [];
   }
 
-  private updateLocalStorage(cart: ProductShoppingCart[]) {
+  updateLocalStorage(cart: ProductShoppingCart[]) {
     localStorage.setItem('shoppingCart', JSON.stringify(cart));
   }
 
@@ -36,4 +36,10 @@ export class ShoppingCartService {
     this.cart.next(updatedCart);
     this.updateLocalStorage(updatedCart);
   }
+
+  clearCart() {
+    this.cart.next([]); 
+    localStorage.removeItem('cart'); 
+  }
+  
 }

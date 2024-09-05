@@ -17,8 +17,8 @@ export const customerGuard: CanActivateFn = (route, state) => {
           localStorage.setItem('profileId', res.id);
           localStorage.setItem('name', res.name);
           
-          if (!localStorage.getItem('shoppingCArt')) {
-            localStorage.setItem('shoppingCArt', '[]');
+          if (!localStorage.getItem('shoppingCart')) {
+            localStorage.setItem('shoppingCart', '[]');
           }
 
           return true;

@@ -60,6 +60,7 @@ export class MapComponent {
   }
 
   markerClick(drugstoreId: any) {
+    this.drugstoreId = drugstoreId
     this.drugstoreProductService.getDetailsById(drugstoreId, this.route.snapshot.paramMap.get('productId')).subscribe({
       next: (res) =>{
         this.productDetail = res

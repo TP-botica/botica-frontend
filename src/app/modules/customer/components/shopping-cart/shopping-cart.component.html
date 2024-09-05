@@ -1,8 +1,48 @@
 <section class="shopping-cart">
-    <div class="p-4 border-1 surface-border surface-card border-round">
-        
+    <div class="p-4 border-1 surface-border surface-card border-round products">
+        <h3>Mi carrito</h3>
+        @if(productsList.length <=0){
+         <h1> No hay productos en el carrito </h1>
+        }
+        @for(product of productsList; track product.id){
+            <div class="product-container">
+                <img [src]="product.imageUrl" [alt]="product.name">
+                <b>{{product.name}}</b>
+                <p>{{product.drugstore}}</p>
+                <p-inputNumber 
+                [(ngModel)]="product.quantity" 
+                [showButtons]="true" 
+                buttonLayout="horizontal" 
+                spinnerMode="horizontal" 
+                inputId="horizontal"
+                decrementButtonClass="p-button-secondary"
+                incrementButtonClass="p-button-secondary" 
+                incrementButtonIcon="pi pi-plus" 
+                decrementButtonIcon="pi pi-minus"
+                (ngModelChange)="updateCart()"
+                min="1" />
+                <p>S/. {{product.price * product.quantity}}</p>
+                <p-button label="Eliminar" [text]="true" severity="danger" (onClick)="deleteProduct(product.id, product.drugstoreId)"/>
+            </div>
+        }
     </div>
-    <div class="p-4 border-1 surface-border surface-card border-round">
-        
+    <div class="p-4 border-1 surface-border surface-card border-round summary">
+        <div>
+            <h3>Resumen de compra</h3>
+            <div class="info">
+                <p>Subtotal</p><p>S/. {{subtotal}}</p>
+            </div>
+        </div>
+        <div>
+            <div class="info">
+                <p>Total a pagar</p><p>S/. {{subtotal}}</p>
+            </div>
+            <button 
+                pButton 
+                pRipple 
+                label="Comprar" 
+                class="p-button-success">
+            </button>
+        </div>
     </div>
 </section>

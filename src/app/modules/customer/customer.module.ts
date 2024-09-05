@@ -32,10 +32,11 @@ import { SearchProductComponent } from './components/search-product/search-produ
 import { MapComponent } from './components/map/map.component';
 import { Map2Component } from './components/map-2/map-2.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
 
 
 @NgModule({
-  declarations: [CustomerHomeComponent, PurchaseComponent, SearchProductComponent, MapComponent, Map2Component, EditProfileComponent],
+  declarations: [CustomerHomeComponent, PurchaseComponent, SearchProductComponent, MapComponent, Map2Component, EditProfileComponent, ShoppingCartComponent],
   imports: [
     CommonModule,
     CustomerRoutingModule,

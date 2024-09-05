@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { ShoppingCartService } from '../../../../service/shopping-cart.service';
 import { ProductShoppingCart } from '../../../../domain/product';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-customer-navbar',
@@ -45,6 +46,7 @@ export class CustomerNavbarComponent implements OnInit {
   }
 
   logout(){
+    this.shoppingCartService.clearCart(); 
     localStorage.clear();
     this.router.navigate(['/']);
 }

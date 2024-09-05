@@ -5,3 +5,74 @@
     gap: 1rem;
     min-height: 20rem;
 }
+
+.product-container{
+    width: 100%;
+    border-top: 1px solid rgb(190, 190, 190);
+    padding: .5rem 0;
+    display: grid;
+    grid-template-columns: 100px 1fr 100px 200px 100px 100px;
+    align-items: center;
+    gap: .5rem;
+}
+
+img{
+    width: 100px;
+}
+
+h1{
+    text-align: center;
+    color: rgb(165, 164, 164);
+}
+
+h3{
+    margin-top: 0;
+}
+
+.summary{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.info{
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid rgb(190, 190, 190);
+}
+
+@media (max-width: 1260px) {
+    .shopping-cart{
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .summary, .products{
+        width: 100%;
+    }
+}
+
+@media (max-width: 860px) {
+    .shopping-cart{
+        padding: 2rem 0;
+    }
+
+    .product-container{
+        display: grid;
+        grid-template-columns: 100px 1fr;
+        justify-items: center;
+        align-items: center;
+        gap: .5rem;
+    }
+}
+
+:host ::ng-deep 
+    .p-inputnumber-input{
+        width: 60px;
+        text-align: center;
+    }
+    .p-button-success{
+        width: 100%;
+    }
+
+    
