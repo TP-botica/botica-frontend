@@ -102,7 +102,8 @@
                     [options]="serviceOptions" 
                     [(ngModel)]="selectedService" 
                     optionLabel="name"
-                    placeholder="Selecciona un servicio" />
+                    placeholder="Selecciona un servicio"
+                    [emptyMessage]="'No se encontraron servicios'" />
                     <div class="skeleton"></div>
                 }
                 @else {
@@ -119,6 +120,8 @@
                     <div class="field col">
                         <label for="price">Precio</label>
                         <p-inputNumber 
+                            min="0"
+                            max="99999.99" 
                             id="price" 
                             [(ngModel)]="service.price" 
                             mode="currency" 

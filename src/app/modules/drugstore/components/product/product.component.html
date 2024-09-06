@@ -108,7 +108,8 @@
                     [options]="productOptions" 
                     [(ngModel)]="selectedProduct" 
                     optionLabel="name"
-                    placeholder="Selecciona un producto" />
+                    placeholder="Selecciona un producto"
+                    [emptyMessage]="'No se encontraron productos'" />
                     <div class="skeleton"></div>
                 }
                 @else {
@@ -124,7 +125,9 @@
                 <div class="formgrid grid">
                     <div class="field col">
                         <label for="price">Precio</label>
-                        <p-inputNumber 
+                        <p-inputNumber
+                            min="0"
+                            max="99999.99" 
                             id="price" 
                             [(ngModel)]="product.price" 
                             mode="currency" 
@@ -134,6 +137,8 @@
                     <div class="field col">
                         <label for="quantity">Stock</label>
                         <p-inputNumber 
+                            min="0"
+                            max="99999" 
                             id="quantity" 
                             [(ngModel)]="product.stock" />
                     </div>
