@@ -144,5 +144,9 @@ export class ServiceComponent implements OnInit{
   
         return index;
     }
+
+    isFormValid(): boolean {
+      return !!this.service.price && this.service.price > 0;
+    }
   
   }

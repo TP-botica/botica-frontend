@@ -60,7 +60,7 @@
             <div class="card-info">
                 <div class="payment-field">
                     <label id="date" for="date">Válido hasta</label>
-                    <p-inputMask inputId="date" mask="99/99" [(ngModel)]="expiryDate"></p-inputMask>
+                    <p-inputMask inputId="date" mask="99/99" [(ngModel)]="expiryDate" (onComplete)="autoCorrectMonth()"></p-inputMask>
                 </div>
                 <div class="payment-field">
                     <label for="cvv">CVV</label>

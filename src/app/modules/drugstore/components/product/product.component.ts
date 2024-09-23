@@ -145,4 +145,8 @@ export class ProductComponent implements OnInit{
       return index;
   }
 
+  isFormValid(): boolean {
+    return !!this.product.price && this.product.price > 0 && !!this.product.stock && this.product.stock > 0;
+  }
+
 }

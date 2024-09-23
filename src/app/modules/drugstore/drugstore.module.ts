@@ -21,6 +21,7 @@ import { OrderListModule } from 'primeng/orderlist';
 import { SaleComponent } from './components/sale/sale.component';
 import { DrugstoreHomeComponent } from './components/drugstore-home/drugstore-home.component';
 import { ServiceComponent } from './components/service/service.component';
+import { ReactiveFormsModule } from '@angular/forms';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 
 @NgModule({
@@ -30,6 +31,6 @@ import { EditProfileComponent } from './components/edit-profile/edit-profile.com
     DrugstoreRoutingModule,
     TableModule, ToolbarModule, ToastModule, ButtonModule,
      TagModule, RadioButtonModule, FormsModule, ConfirmDialogModule, DropdownModule, DialogModule,
-    InputTextModule, InputTextareaModule, InputNumberModule, OrderListModule  ]
+    InputTextModule, InputTextareaModule, InputNumberModule, OrderListModule, ReactiveFormsModule  ]
 })
 export class DrugstoreModule { }

@@ -128,11 +128,15 @@
                         <p-inputNumber
                             min="0"
                             max="99999.99" 
-                            id="price" 
+                            id="price"
+                            #price="ngModel"
                             [(ngModel)]="product.price" 
                             mode="currency" 
                             currency="PEN" 
                             locale="es-PE" />
+                            @if(!product.price && (price.touched || price.dirty)){
+                                <small class="p-error">El precio es requerido.</small>
+                            }
                     </div>
                     <div class="field col">
                         <label for="quantity">Stock</label>
@@ -140,7 +144,11 @@
                             min="0"
                             max="99999" 
                             id="quantity" 
+                            #stock="ngModel"
                             [(ngModel)]="product.stock" />
+                            @if(!product.stock && (stock.touched || stock.dirty)){
+                                <small class="p-error">El stock es requerido.</small>
+                            }
                     </div>
                 </div>
             </ng-template>
@@ -156,7 +164,8 @@
                     pRipple 
                     label="Guardar" 
                     icon="pi pi-check" 
-                    [text]="true" 
+                    [text]="true"
+                    [disabled]="!isFormValid()"
                     (click)="saveProduct()" />
             </ng-template>
     </p-dialog>

@@ -122,11 +122,15 @@
                         <p-inputNumber 
                             min="0"
                             max="99999.99" 
-                            id="price" 
+                            id="price"
+                            #price="ngModel"
                             [(ngModel)]="service.price" 
                             mode="currency" 
                             currency="PEN" 
                             locale="es-PE" />
+                            @if(!service.price && (price.touched || price.dirty)){
+                                <small class="p-error">El precio es requerido.</small>
+                            }
                     </div>
                 </div>
             </ng-template>
@@ -142,7 +146,8 @@
                     pRipple 
                     label="Guardar" 
                     icon="pi pi-check" 
-                    [text]="true" 
+                    [text]="true"
+                    [disabled]="!isFormValid()"
                     (click)="saveService()" />
             </ng-template>
     </p-dialog>

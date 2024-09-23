@@ -107,4 +107,12 @@ export class ShoppingCartComponent {
     return true;
   }
 
+  autoCorrectMonth() {
+    const [month, year] = this.expiryDate.split('/').map(Number);
+    
+    if (month > 12) {
+        this.expiryDate = `12/${year.toString().padStart(2, '0')}`;
+    }
+}
+
 }
